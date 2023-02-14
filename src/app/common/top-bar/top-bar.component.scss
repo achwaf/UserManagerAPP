@@ -1,0 +1,24 @@
+@import "/node_modules/mdb-angular-ui-kit/assets/scss/free/variables";
+@import "../../../assets/style/variables";
+
+
+$waterMarkColor: $color-2;
+
+.color-main{
+    color: $color-3;
+}
+
+.bg-second{
+    background-color: $color-1;
+}
+
+.app-name{
+    font-size: 3rem;
+    font-family: snesFont !important;
+    line-height: 0.8;
+    color: $waterMarkColor;
+}
+
+.top-bar-container{
+    z-index: 1;
+}

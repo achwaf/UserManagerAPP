@@ -1,0 +1,15 @@
+@import "/node_modules/mdb-angular-ui-kit/assets/scss/free/variables";
+@import "../../../assets/style/variables";
+
+$icon-bg-color:$teal-500;
+
+:host{
+    display: flex;
+    flex-flow: column;
+    align-items: end;
+    width: 100%;
+}
+
+.user-form-container{
+    min-width: 400px;
+}

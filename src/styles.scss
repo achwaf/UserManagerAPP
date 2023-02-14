@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+// MDB SCSS
+@import "mdb-angular-ui-kit/assets/scss/mdb.scss";
+
+
+@font-face {
+	font-family: 'snesFont';
+	src: url('assets/fonts/SnesItalic-vmAPZ.ttf');
+}
+
+* {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.fit-parent{
+	top:0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+
+}

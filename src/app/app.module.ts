@@ -11,6 +11,7 @@ import { TalkingAvatarComponent } from './common/talking-avatar/talking-avatar.c
 import { TopBarComponent } from './common/top-bar/top-bar.component';
 import { UserFormComponent } from './common/user-form/user-form.component';
 import { ModalAlertComponent } from './common/modal-alert/modal-alert.component';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ModalAlertComponent } from './common/modal-alert/modal-alert.component'
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MdbFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

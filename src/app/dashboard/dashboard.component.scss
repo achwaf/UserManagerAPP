@@ -1,0 +1,29 @@
+@import "/node_modules/mdb-angular-ui-kit/assets/scss/free/variables";
+@import "../../assets/style/variables";
+
+
+$waterMarkColor: $teal-50;
+$text-shadow-line:1px;
+$text-shadow-color:$teal-500;
+$circle-color:$cyan-500;
+
+.dashboard-container{
+    overflow: hidden;
+}
+
+.app-name{
+    font-size: 13rem;
+    font-family: snesFont !important;
+    line-height: 0.8;
+    width: 40px;
+    color: $waterMarkColor;
+    text-shadow:$text-shadow-line $text-shadow-line $text-shadow-color,
+                $text-shadow-line (-$text-shadow-line) $text-shadow-color,
+                -$text-shadow-line (-$text-shadow-line) $text-shadow-color,
+                -$text-shadow-line $text-shadow-line $text-shadow-color;
+}
+:host{
+    display: block;
+    height: 100%;
+    position: relative;
+}
