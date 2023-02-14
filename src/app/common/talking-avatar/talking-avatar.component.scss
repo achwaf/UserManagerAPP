@@ -26,6 +26,7 @@ $frame-size:45px;
 
 $box-shadow-line:1px;
 .quote-under{
+    z-index: 50;
     top: 0px;
     left: 0px;
     .quote-text{
@@ -39,6 +40,29 @@ $box-shadow-line:1px;
         padding: 5px 10px;
         border: 3px solid;
         position: absolute;
+        box-shadow: $box-shadow-line (-$box-shadow-line) white, 
+                    -$box-shadow-line (-$box-shadow-line) white, 
+                    -$box-shadow-line $box-shadow-line white, 
+                    $box-shadow-line $box-shadow-line white;
+    }
+}
+
+.quote-above{
+    z-index: 50;
+    top: 0px;
+    left: 0px;
+    .quote-text{
+        font-size: 0.8rem;
+        width: fit-content;
+        top: -17px;
+        left:$frame-size - 7px;
+        color : #ef5350;
+        font-weight: bold;
+        background: white;
+        border-radius:  15px 15px 15px 0px;
+        padding: 5px 10px;
+        border: 3px solid;
+        position: relative;
         box-shadow: $box-shadow-line (-$box-shadow-line) white, 
                     -$box-shadow-line (-$box-shadow-line) white, 
                     -$box-shadow-line $box-shadow-line white, 
