@@ -8,4 +8,5 @@ import { QuotePosition as QuoteEnum } from '../model/quote-position';
 })
 export class DashboardComponent {
   QuotePosition = QuoteEnum;
+  
 }

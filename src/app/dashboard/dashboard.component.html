@@ -7,17 +7,14 @@
     <div class="w-100 h-100 p-3 d-flex">
         <div class="mx-auto p-3 w-100 h-100 align-self-center d-flex flex-column align-items-stretch flex-wrap-reverse">            
             <div class="card h-100 list-user-container">
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <ul class="list-group list-group-light">
-                        <li class="list-group-item">
+                        <li *ngFor="let item of [].constructor(10); let i = index" class="list-group-item">
                             <div class="d-flex">
                                 <app-talking-avatar [position]="QuotePosition.ABOVE"></app-talking-avatar>
+                                <div class="p-2 fw-bolder color-main">achraf.karimi</div>
                             </div>
                         </li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        <li class="list-group-item">A fourth item</li>
-                        <li class="list-group-item">And a fifth one</li>
                     </ul>
                 </div>
                 <div class="card-footer d-flex flex-row-reverse align-items-end p-3 ">
