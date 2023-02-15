@@ -7,6 +7,13 @@ $text-shadow-line:1px;
 $text-shadow-color:$teal-500;
 $circle-color:$cyan-500;
 
+:host{
+    display: block;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
 .dashboard-container{
     overflow: hidden;
 }
@@ -26,9 +33,9 @@ $circle-color:$cyan-500;
                 -$text-shadow-line (-$text-shadow-line) $text-shadow-color,
                 -$text-shadow-line $text-shadow-line $text-shadow-color;*/
 }
-:host{
-    display: block;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
+
+.card-footer{
+    fa-icon{
+        color: dimgray;
+    }
 }

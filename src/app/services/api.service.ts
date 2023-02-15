@@ -22,7 +22,7 @@ export class ApiService {
       avatar:Number
     };
     (userToRegister= userForm);
-    return this.http.post<String>('/register',userToRegister).pipe(retry(1), catchError(this.handleError));
+    return this.http.post<String>(`${this.apiURL}/register`,userToRegister).pipe(retry(1), catchError(this.handleError));
   }
 
   /**

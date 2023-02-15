@@ -1,4 +1,5 @@
 export enum QuotePosition {
     ABOVE, 
-    UNDER
+    UNDER,
+    NONE,
 }

@@ -6,13 +6,13 @@
             <button type="button" class="btn btn-tertiary mx-2" mdbRipple (click)="editHandler()">
                 <fa-icon class=" fa-lg" [icon]="edit"></fa-icon>
             </button>
-            <button *ngIf="!user.disabled" type="button" class="btn btn-tertiary mx-2" mdbRipple (click)="disableHandler()">
+            <button *ngIf="!user.disabled" type="button" class="btn btn-tertiary mx-2" (click)="disableHandler()">
                 <fa-icon class=" fa-lg" [icon]="disable"></fa-icon>
             </button>
-            <button *ngIf="user.disabled" type="button" class="btn btn-tertiary mx-2" data-mdb-ripple-color="dark" mdbRipple (click)="enableHandler()">
+            <button *ngIf="user.disabled" type="button" class="btn btn-tertiary mx-2" (click)="enableHandler()">
                 <fa-icon class=" fa-lg" [icon]="enable"></fa-icon>
             </button>
-            <button type="button" class="btn btn-tertiary ms-2" mdbRipple (click)="deleteHandler()">
+            <button type="button" class="btn btn-tertiary ms-2" (click)="deleteHandler()">
                 <fa-icon class=" fa-lg" [icon]="delete"></fa-icon>
             </button>
             

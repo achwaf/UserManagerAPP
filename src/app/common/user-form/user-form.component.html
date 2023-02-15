@@ -1,5 +1,13 @@
 <div class="card mx-3 user-form-container">
     <div class="card-body">
+
+        <div class="mb-3 d-flex align-items-center">
+            <app-talking-avatar class="me-2" [animal]="selectedAvatar"></app-talking-avatar>
+            <div class="fw-light"> Selected avatar </div>
+            <div class="d-flex flex-grow-1 flex-row-reverse"><button type="button" class="btn btn-sm btn-tertiary me-2"
+                    (click)="changeAvatarHandler()">change</button></div>
+        </div>
+
         <mdb-form-control class="mb-3">
             <input mdbInput type="email" id="email" class="form-control" placeholder="username@example.com"
                 aria-label="username@example.com" />
@@ -7,20 +15,28 @@
         </mdb-form-control>
 
         <mdb-form-control class="mb-3 d-flex">
-            <input mdbInput type="password" id="password" class="form-control" />
+            <input mdbInput [type]="getPasswordType()" id="password" class="form-control" />
             <label mdbLabel class="form-label" for="password">Password</label>
-            <button type="button" class="btn btn-tertiary me-2" mdbRipple>Show</button>
-            <button type="button" class="btn btn-tertiary me-2" mdbRipple>Hide</button>
+            <button *ngIf="!passwordVisible" type="button" class="btn btn-sm btn-tertiary me-2"
+                (click)="showHandler()">Show</button>
+            <button *ngIf="passwordVisible" type="button" class="btn btn-sm btn-tertiary me-2"
+                (click)="hideHandler()">Hide</button>
         </mdb-form-control>
 
         <div class="form-check form-switch mb-3">
-            <label class="form-check-label fw-light" for="flexSwitchCheckDefault">Set password to change at first login</label>
+            <label class="form-check-label fw-light" for="flexSwitchCheckDefault">Set password to change at first
+                login</label>
             <input mdbCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
         </div>
 
         <div class="d-flex">
-            <a href="#" class="btn btn-info me-3">Login</a>
-            <button type="button" class="btn btn-tertiary" mdbRipple>Register</button>
+            <a class="btn btn-info me-3">Login</a>
+            <button type="button" class="btn btn-tertiary" mdbRipple>Register?</button>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-tertiary" mdbRipple>Already registered?</button>
+            <a class="btn btn-info ms-3">Register</a>
         </div>
 
     </div>

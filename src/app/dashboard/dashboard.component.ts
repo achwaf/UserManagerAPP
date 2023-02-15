@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IModel } from '../model/i-model';
+import { faRotate } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,7 @@ import { IModel } from '../model/i-model';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-
+  refresh=faRotate;
   userList!:IModel[];
 
   constructor(){
@@ -32,6 +33,10 @@ export class DashboardComponent {
       disabled: false,
       passwordShouldBeChanged: false
     })
+  }
+
+  refreshHandler(){
+    
   }
 
 }

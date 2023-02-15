@@ -4,6 +4,12 @@
 $animal-size:40px;
 $frame-size:45px;
 
+:host[loggedin]{
+    .frame{
+        border-color: $color-3;
+    }
+}
+
 .animal{
     width: $animal-size;
     height: $animal-size;
@@ -20,7 +26,7 @@ $frame-size:45px;
     left: ($animal-size - $frame-size)/2;
     top: ($animal-size - $frame-size)/2;
     border-radius: $frame-size;
-    border-color:$color-3;
+    border-color: #ccf2f6;
     border-style: solid;
 }
 

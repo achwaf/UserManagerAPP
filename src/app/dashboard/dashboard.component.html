@@ -5,17 +5,21 @@
         </div>
     </div>
     <div class="w-100 h-100 p-3 d-flex">
-        <div class="mx-auto p-3 w-100 h-100 align-self-center d-flex flex-column align-items-stretch flex-wrap-reverse">            
+        <div class="mx-auto p-3 w-100 h-100 align-self-center d-flex flex-column align-items-stretch flex-wrap-reverse">
             <div class="card h-100 list-user-container">
                 <div class="card-body overflow-auto">
                     <ul class="list-group list-group-light">
                         <li *ngFor="let user of userList; let i = index" class="list-group-item">
-                           <app-user-panel [user]="user"></app-user-panel>
+                            <app-user-panel [user]="user"></app-user-panel>
                         </li>
                     </ul>
                 </div>
-                <div class="card-footer d-flex flex-row-reverse align-items-end p-3 ">
-                    <a class="btn btn-info" (click)="createHandler()">Add a new user</a>
+                <div class="card-footer d-flex flex-row align-items-end p-3 align-items-center">
+                    <button type="button" class="btn btn-tertiary mx-2 my-0 py-0" (click)="refreshHandler()">
+                        <fa-icon class="fs-3" [icon]="refresh"></fa-icon>
+                    </button>
+                    <div class="d-flex justify-content-end flex-grow-1"><a class="btn btn-info"
+                            (click)="createHandler()">Add a new user</a></div>
                 </div>
             </div>
         </div>

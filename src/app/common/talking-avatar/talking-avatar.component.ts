@@ -3,14 +3,21 @@ import { QuotePosition } from 'src/app/model/quote-position';
 import { AnimalService } from 'src/app/services/animal.service';
 
 @Component({
-  selector: 'app-talking-avatar[position]',
+  selector: 'app-talking-avatar',
   templateUrl: './talking-avatar.component.html',
   styleUrls: ['./talking-avatar.component.scss']
 })
 export class TalkingAvatarComponent implements OnInit {
 
-  @Input() position:QuotePosition = QuotePosition.ABOVE;
-  @Input() animal!:number;
+  @Input() position:QuotePosition = QuotePosition.NONE;
+  
+  private _animal!:number;
+  get animal(){return this._animal}
+  @Input() 
+  set animal(value:number){
+    this._animal = value;
+    this.setAnimalImageSrc();
+  }
 
   animalImageSrc!:String;
 
@@ -18,6 +25,10 @@ export class TalkingAvatarComponent implements OnInit {
     
   }
   ngOnInit(): void {
+    this.setAnimalImageSrc();
+  }
+
+  setAnimalImageSrc(){
     if(!this.animal || this.animal < 1 ||  this.animal > 30){
       this.animalImageSrc = `/assets/animals/${this.animalService.next()}.png`;
     }else{
