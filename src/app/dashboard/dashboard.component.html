@@ -9,16 +9,13 @@
             <div class="card h-100 list-user-container">
                 <div class="card-body overflow-auto">
                     <ul class="list-group list-group-light">
-                        <li *ngFor="let item of [].constructor(10); let i = index" class="list-group-item">
-                            <div class="d-flex">
-                                <app-talking-avatar [position]="QuotePosition.ABOVE"></app-talking-avatar>
-                                <div class="p-2 fw-bolder color-main">achraf.karimi</div>
-                            </div>
+                        <li *ngFor="let user of userList; let i = index" class="list-group-item">
+                           <app-user-panel [user]="user"></app-user-panel>
                         </li>
                     </ul>
                 </div>
                 <div class="card-footer d-flex flex-row-reverse align-items-end p-3 ">
-                    <a href="#" class="btn btn-info">Add a new user</a>
+                    <a class="btn btn-info" (click)="createHandler()">Add a new user</a>
                 </div>
             </div>
         </div>

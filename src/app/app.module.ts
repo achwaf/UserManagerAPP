@@ -12,6 +12,8 @@ import { TopBarComponent } from './common/top-bar/top-bar.component';
 import { UserFormComponent } from './common/user-form/user-form.component';
 import { ModalAlertComponent } from './common/modal-alert/modal-alert.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserPanelComponent } from './common/user-panel/user-panel.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
     TalkingAvatarComponent,
     TopBarComponent,
     UserFormComponent,
-    ModalAlertComponent
+    ModalAlertComponent,
+    UserPanelComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MdbFormsModule
+    MdbFormsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
