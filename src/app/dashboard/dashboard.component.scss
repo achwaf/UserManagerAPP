@@ -36,6 +36,9 @@ $circle-color:$cyan-500;
 
 .card-footer{
     fa-icon{
-        color: dimgray;
+        color: lightgray;
+    }
+    .refresh-label{
+        color:  lightgray;
     }
 }

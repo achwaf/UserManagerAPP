@@ -15,8 +15,9 @@
                     </ul>
                 </div>
                 <div class="card-footer d-flex flex-row align-items-end p-3 align-items-center">
-                    <button type="button" class="btn btn-tertiary mx-2 my-0 py-0" (click)="refreshHandler()">
-                        <fa-icon class="fs-3" [icon]="refresh"></fa-icon>
+                    <button type="button" class="btn btn-tertiary d-flex align-items-center mx-2 my-0 py-0" (click)="refreshHandler()">
+                        <span #refreshbutton><fa-icon class="fs-4" [icon]="refresh"></fa-icon></span>
+                        <span class="refresh-label ms-1">Refresh</span>
                     </button>
                     <div class="d-flex justify-content-end flex-grow-1"><a class="btn btn-info"
                             (click)="createHandler()">Add a new user</a></div>

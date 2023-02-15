@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { IModel } from '../model/i-model';
 
@@ -17,12 +17,22 @@ export class ApiService {
 
   registerUser(userForm:IModel){
     let userToRegister:{
-      username:String
+      username:string
       password?:String
-      avatar:Number
+      avatar?:Number
     };
     (userToRegister= userForm);
-    return this.http.post<String>(`${this.apiURL}/register`,userToRegister).pipe(retry(1), catchError(this.handleError));
+    return this.http.post<string>(`${this.apiURL}/register`,userToRegister).pipe(retry(1), catchError(this.handleError));
+  }
+
+  async takeExampleofthis(username:string){
+    let usernameBase64 = this.b64EncodeUnicode(username)
+    return await firstValueFrom(this.http.get<boolean>(`${this.apiURL}/form/check?username=${usernameBase64}`).pipe(retry(1), catchError(this.handleError)));
+  }
+
+  checkIfUserameIsUsed(username:string){
+    let usernameBase64 = this.b64EncodeUnicode(username)
+    return this.http.get<boolean>(`${this.apiURL}/form/check?username=${usernameBase64}`).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -44,5 +54,12 @@ export class ApiService {
       return errorMessage;
     });
   }
+
+
+  private b64EncodeUnicode(str:string) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+        return String.fromCharCode(parseInt(p1, 16))
+    }))
+}
 
 }

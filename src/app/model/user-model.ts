@@ -1,8 +1,8 @@
 import { IModel } from "./i-model";
 
 export class UserModel implements IModel{
-    public username: String;
-    public password: String;
+    public username: string;
+    public password: string;
     public avatar: number;
     public disabled: boolean;
     public passwordShouldBeChanged: boolean;

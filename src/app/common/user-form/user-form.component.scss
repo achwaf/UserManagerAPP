@@ -1,7 +1,6 @@
 @import "/node_modules/mdb-angular-ui-kit/assets/scss/free/variables";
 @import "../../../assets/style/variables";
 
-$icon-bg-color:$teal-500;
 
 :host{
     display: flex;
@@ -10,6 +9,15 @@ $icon-bg-color:$teal-500;
     width: 100%;
 }
 
+.warning-username{
+    color: orangered;
+    font-weight: normal;
+}
+
+.ok-username{
+    color: limegreen;
+}
+
 .user-form-container{
-    min-width: 400px;
+    min-width: 400px;    
 }

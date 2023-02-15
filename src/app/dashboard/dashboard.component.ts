@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IModel } from '../model/i-model';
-import { faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,8 +8,22 @@ import { faRotate } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  refresh=faRotate;
+
+  @ViewChild('refreshbutton') refreshButton?: ElementRef<HTMLElement>;
+
+  refresh=faRotateRight;
   userList!:IModel[];
+
+  private newspaperSpinning = [
+    { transform: 'rotate(0)' },
+    { transform: 'rotate(360deg)' }
+  ];
+  
+  private newspaperTiming = {
+    duration:300,
+    iterations: 1,
+  }
+  
 
   constructor(){
     this.userList = [{
@@ -36,7 +50,9 @@ export class DashboardComponent {
   }
 
   refreshHandler(){
-    
+    if(!!this.refreshButton){
+      this.refreshButton.nativeElement.animate(this.newspaperSpinning, this.newspaperTiming);
+    }
   }
 
 }

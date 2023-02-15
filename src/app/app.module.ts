@@ -13,6 +13,7 @@ import { TopBarComponent } from './common/top-bar/top-bar.component';
 import { UserFormComponent } from './common/user-form/user-form.component';
 import { ModalAlertComponent } from './common/modal-alert/modal-alert.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserPanelComponent } from './common/user-panel/user-panel.component';
 
@@ -33,6 +34,7 @@ import { UserPanelComponent } from './common/user-panel/user-panel.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     MdbFormsModule,
     FontAwesomeModule
   ],

@@ -1,8 +1,8 @@
 export interface IModel {
     
-    token?:String
-    username: String;
-    password?:String
+    token?:string
+    username: string;
+    password?:string
     avatar: number;
     disabled?: boolean;
     passwordShouldBeChanged?: boolean;
