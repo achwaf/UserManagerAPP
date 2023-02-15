@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IUserModel } from 'src/app/model/i-user-model';
+import { IModel } from 'src/app/model/i-model';
 import { QuotePosition as QuoteEnum } from '../../model/quote-position';
 import { UserAction as UserEnum } from '../../model/user-action';
 import { faTrashAlt, faPenToSquare, faRectangleXmark, faCheckSquare } from '@fortawesome/free-regular-svg-icons';
@@ -17,7 +17,7 @@ export class UserPanelComponent {
   QuotePosition = QuoteEnum;
   UserAction=UserEnum;
   
-  @Input() user!:IUserModel;
+  @Input() user!:IModel;
 
   
   action:UserEnum= UserEnum.INITIAL;

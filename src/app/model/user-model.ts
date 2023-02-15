@@ -1,6 +1,6 @@
-import { IUserModel } from "./i-user-model";
+import { IModel } from "./i-model";
 
-export class UserModel implements IUserModel{
+export class UserModel implements IModel{
     public username: String;
     public password: String;
     public avatar: number;

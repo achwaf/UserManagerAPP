@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { QuotePosition as QuoteEnum } from '../model/quote-position';
-import { UserAction as UserEnum } from '../model/user-action';
-import { faTrashAlt, faPenToSquare, faRectangleXmark, faCheckSquare } from '@fortawesome/free-regular-svg-icons';
-import { IUserModel } from '../model/i-user-model';
+import { IModel } from '../model/i-model';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +8,7 @@ import { IUserModel } from '../model/i-user-model';
 })
 export class DashboardComponent {
 
-  userList!:IUserModel[];
+  userList!:IModel[];
 
   constructor(){
     this.userList = [{

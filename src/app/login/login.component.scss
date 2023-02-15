@@ -2,7 +2,7 @@
 @import "../../assets/style/variables";
 
 
-$waterMarkColor: $teal-50;
+$waterMarkColor: #ccf2f6;
 $text-shadow-line:1px;
 $text-shadow-color:$teal-500;
 $circle-color:$cyan-500;
@@ -17,10 +17,10 @@ $circle-color:$cyan-500;
     line-height: 0.8;
     width: 40px;
     color: $waterMarkColor;
-    text-shadow:$text-shadow-line $text-shadow-line $text-shadow-color,
+    /*text-shadow:$text-shadow-line $text-shadow-line $text-shadow-color,
                 $text-shadow-line (-$text-shadow-line) $text-shadow-color,
                 -$text-shadow-line (-$text-shadow-line) $text-shadow-color,
-                -$text-shadow-line $text-shadow-line $text-shadow-color;
+                -$text-shadow-line $text-shadow-line $text-shadow-color;*/
 }
 
 .circle-mark{

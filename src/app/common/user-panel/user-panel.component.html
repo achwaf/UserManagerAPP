@@ -3,18 +3,19 @@
     <div class="ms-2 p-2 fw-bolder color-main" [ngClass]="{'shortened' : showConfirm}">{{user.username}}</div>
     <ng-container [ngSwitch]="showConfirm">
         <div *ngSwitchCase="false" class="d-flex justify-content-end flex-grow-1 user-actions">
-            <button type="button" class="btn btn-tertiary me-3" mdbRipple (click)="editHandler()">
+            <button type="button" class="btn btn-tertiary mx-2" mdbRipple (click)="editHandler()">
                 <fa-icon class=" fa-lg" [icon]="edit"></fa-icon>
             </button>
-            <button *ngIf="!user.disabled" type="button" class="btn btn-tertiary me-3" mdbRipple (click)="disableHandler()">
+            <button *ngIf="!user.disabled" type="button" class="btn btn-tertiary mx-2" mdbRipple (click)="disableHandler()">
                 <fa-icon class=" fa-lg" [icon]="disable"></fa-icon>
             </button>
-            <button *ngIf="user.disabled" type="button" class="btn btn-tertiary me-3" mdbRipple (click)="enableHandler()">
+            <button *ngIf="user.disabled" type="button" class="btn btn-tertiary mx-2" data-mdb-ripple-color="dark" mdbRipple (click)="enableHandler()">
                 <fa-icon class=" fa-lg" [icon]="enable"></fa-icon>
             </button>
-            <button type="button" class="btn btn-tertiary" mdbRipple (click)="deleteHandler()">
+            <button type="button" class="btn btn-tertiary ms-2" mdbRipple (click)="deleteHandler()">
                 <fa-icon class=" fa-lg" [icon]="delete"></fa-icon>
             </button>
+            
         </div>
         <div  *ngSwitchCase="true" class="d-flex justify-content-end flex-grow-1 align-items-center user-confirmation">
             <div [ngSwitch]="action" class="me-3">

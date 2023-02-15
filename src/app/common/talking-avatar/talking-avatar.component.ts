@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IUserModel } from 'src/app/model/i-user-model';
 import { QuotePosition } from 'src/app/model/quote-position';
 import { AnimalService } from 'src/app/services/animal.service';
 
