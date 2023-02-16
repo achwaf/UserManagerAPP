@@ -7,7 +7,7 @@ export class AnimalService {
 
   private remainingAnimals!: Array<number>;
 
-  public readonly animalsCount:number=218;
+  public readonly animalsCount:number=169;
 
   constructor() {
     this.initAnimals();
