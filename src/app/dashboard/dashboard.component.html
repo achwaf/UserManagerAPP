@@ -10,7 +10,7 @@
                 <div class="card-body overflow-auto">
                     <ul class="list-group list-group-light">
                         <li *ngFor="let user of userList; let i = index" class="list-group-item">
-                            <app-user-panel [user]="user"></app-user-panel>
+                            <app-user-panel [user]="user" (deleteMeEvent)="deleteUserHandler(user)"></app-user-panel>
                         </li>
                     </ul>
                 </div>

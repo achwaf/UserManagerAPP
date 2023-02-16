@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { IModel } from '../model/i-model';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './auth.service';
+import { UserAction } from '../model/user-action';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { AuthService } from './auth.service';
 export class ApiService {
 
   // Define API
-  apiURL = 'http://localhost:8080/assessment';
+  private apiURL = 'http://localhost:8080/assessment';
 
   constructor(private http: HttpClient, private toastr: ToastrService, private authService:AuthService) { }
 
@@ -26,11 +27,6 @@ export class ApiService {
     (userToRegister = userForm);
     return this.http.post<boolean>(`${this.apiURL}/register`, userToRegister).pipe(catchError(this.errorHandler('Error regsitering user')));
   }
-
-  /*async takeExampleofthis(username:string){
-    let usernameBase64 = this.b64EncodeUnicode(username)
-    return await firstValueFrom(this.http.get<boolean>(`${this.apiURL}/form/check?username=${usernameBase64}`).pipe(catchError(this.handleError)));
-  }*/
 
   checkIfUserameIsUsed(username: string) {
     let usernameBase64 = this.b64EncodeUnicode(username)
@@ -55,6 +51,25 @@ export class ApiService {
       })
     };
     return this.http.get<IModel[]>(`${this.apiURL}/auth/users`, httpOptions).pipe(catchError(this.errorHandler('Error getting users')));
+  }
+
+  performAction(action:UserAction, actionDetails:IModel){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-token':  this.authService.accessToken!,
+        'session-id': this.authService.sessionID!
+      })
+    };
+    const body ={
+      action:UserAction[action],
+      actionDetails: {
+          username: actionDetails.username,
+          password: actionDetails.password,
+          passwordShouldBeChanged:actionDetails.passwordShouldBeChanged,
+          avatar: actionDetails.avatar
+      }
+    }
+    return this.http.post<string>(`${this.apiURL}/auth/manage`,body, httpOptions).pipe(catchError(this.errorHandler('Error performing action')));
   }
 
   /**

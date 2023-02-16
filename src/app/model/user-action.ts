@@ -1,8 +1,10 @@
 export enum UserAction {
-    DELETE, 
-    DISABLE,
-    ENABLE,
-    EDIT,
-    CREATE,
+    DISABLE_USER,
+    DELETE_USER,
+    CREATE_USER,
+    CHANGE_USER_PASS,
+    CHANGE_OWN_PASS,
+    ENABLE_USER,
     INITIAL,
+
 }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IModel } from '../model/i-model';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,31 +27,16 @@ export class DashboardComponent implements OnInit {
   }
   
 
-  constructor(private apiService:ApiService){
-    this.userList = [{
-      username:'suika.habouba@gmail.com',
-      avatar: 10,
-      disabled: true,
-      passwordShouldBeChanged: false
-    },
-    {
-      username:'soukaina.cuta@gmail.com',
-      avatar: 5,
-      disabled: false,
-      passwordShouldBeChanged: false
-    }]
+  constructor(private apiService:ApiService, private router:Router){
   }
+
   ngOnInit(): void {
     this.refreshUsers();
   }
 
   createHandler(){
-    this.userList.push({
-      username:'soukaina.cuta@gmail.com.soukaina.cuta@gmail.com',
-      avatar: 0,
-      disabled: false,
-      passwordShouldBeChanged: false
-    })
+    // redirect to manage with create action
+    this.router.navigate(['/manage'])
   }
 
   refreshHandler(){
@@ -64,6 +50,10 @@ export class DashboardComponent implements OnInit {
     this.apiService.getListUsers().subscribe((users: IModel[]) => {
       this.userList = users;
     });
+  }
+
+  deleteUserHandler(user:IModel){
+    this.userList = this.userList.filter(u => u.username != user.username);
   }
 
 }

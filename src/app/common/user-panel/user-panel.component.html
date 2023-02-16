@@ -17,11 +17,11 @@
             </button>
             
         </div>
-        <div  *ngSwitchCase="true" class="d-flex justify-content-end flex-grow-1 align-items-center user-confirmation">
-            <div [ngSwitch]="action" class="me-3">
-                <div *ngSwitchCase="UserAction.DELETE">Confirm deletion?</div>
-                <div *ngSwitchCase="UserAction.DISABLE">Disable user?</div>
-                <div *ngSwitchCase="UserAction.ENABLE">Enable user?</div>
+        <div  *ngSwitchCase="true" class="d-flex justify-content-end flex-grow-1 align-items-center">
+            <div [ngSwitch]="action" class="me-2 user-confirmation">
+                <div *ngSwitchCase="UserAction.DELETE_USER" class="warning">Confirm deletion?</div>
+                <div *ngSwitchCase="UserAction.DISABLE_USER">Disable user?</div>
+                <div *ngSwitchCase="UserAction.ENABLE_USER">Enable user?</div>
             </div>
             <button type="button" class="btn btn-dark btn-sm me-1" (click)="confirmHandler()">Yes</button>
             <button type="button" class="btn btn-dark btn-sm" (click)="cancelHandler()">No</button>

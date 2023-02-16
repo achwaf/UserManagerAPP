@@ -24,9 +24,11 @@ export class UserFormComponent implements OnInit {
   invalid = faXmark;
 
   username?: string;
-  password?: string
+  password: string="";
   usernameState?: UsernameEnum;
   showUsernameState?: boolean;
+
+  userModel?:IModel;
 
   @Input() layout: FormLayout = FormLayout.LOGIN;
 
@@ -123,11 +125,17 @@ export class UserFormComponent implements OnInit {
         // user registered
         this.toastr.success('User registered');
         // switch to login and clear the password
-        this.password = undefined;
+        this.password = "";
         this.changeLayout(FormLayout.LOGIN);
       });
-    }
-    
+    }    
   }
 
+  saveHandler(){
+
+  }
+
+  cancelHandler(){
+      this.router.navigate(['/list'])
+  }
 }

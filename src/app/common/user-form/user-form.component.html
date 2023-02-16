@@ -49,8 +49,8 @@
                 <a class="btn btn-info ms-3" (click)="registerHandler()">Register</a>
             </div>
             <div *ngSwitchDefault class="d-flex justify-content-end">
-                <button type="button" class="btn btn-tertiary" mdbRipple>Cancel</button>
-                <a class="btn btn-info ms-3">Save</a>
+                <button type="button" class="btn btn-tertiary" mdbRipple  (click)="cancelHandler()">Cancel</button>
+                <a class="btn btn-info ms-3"  (click)="saveHandler()">Save</a>
             </div>
         </ng-container>
 
