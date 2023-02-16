@@ -10,6 +10,7 @@ import { AnimalService } from 'src/app/services/animal.service';
 export class TalkingAvatarComponent implements OnInit {
 
   @Input() position:QuotePosition = QuotePosition.NONE;
+  @Input() disabled:boolean=false;
   
   private _animal!:number;
   get animal(){return this._animal}

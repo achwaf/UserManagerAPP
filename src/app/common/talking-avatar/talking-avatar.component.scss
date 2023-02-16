@@ -18,6 +18,10 @@ $frame-size:45px;
     position: relative;
 }
 
+.disabled{
+    opacity: 35%;
+}
+
 .frame{
     height: $frame-size;
     width: $frame-size;

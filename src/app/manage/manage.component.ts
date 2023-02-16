@@ -1,10 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormLayout, FormLayout as UserFormLayout } from '../model/form-layout';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss']
 })
-export class ManageComponent {
+export class ManageComponent implements OnInit {
+
+  FormLayout = UserFormLayout;
+
+  userFormLayout?: FormLayout;
+
+  ngOnInit(): void {
+    
+  }
+
 
 }

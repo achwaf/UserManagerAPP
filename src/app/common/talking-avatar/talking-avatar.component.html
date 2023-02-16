@@ -1,7 +1,6 @@
 <div>
-    <div class="position-relative">
+    <div class="position-relative" [ngClass]="{'disabled': disabled}">
         <div class="frame">
-
         </div>
         <img [src]="animalImageSrc"
             class="img-fluid animal"

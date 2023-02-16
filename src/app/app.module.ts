@@ -11,7 +11,6 @@ import { LoginComponent } from './login/login.component';
 import { TalkingAvatarComponent } from './common/talking-avatar/talking-avatar.component';
 import { TopBarComponent } from './common/top-bar/top-bar.component';
 import { UserFormComponent } from './common/user-form/user-form.component';
-import { ModalAlertComponent } from './common/modal-alert/modal-alert.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -29,7 +28,6 @@ import { ToastrModule } from 'ngx-toastr';
     TalkingAvatarComponent,
     TopBarComponent,
     UserFormComponent,
-    ModalAlertComponent,
     UserPanelComponent
   ],
   imports: [
@@ -41,7 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
     FontAwesomeModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 2000,
+      timeOut: 1500,
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),

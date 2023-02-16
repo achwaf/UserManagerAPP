@@ -1,0 +1,30 @@
+$waterMarkColor: #ccf2f6;
+$text-shadow-line:1px;
+$text-shadow-color:$teal-500;
+$circle-color:$cyan-500;
+
+.app-name{
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    font-size: 13rem;
+    font-family: snesFont !important;
+    line-height: 0.8;
+    width: 40px;
+    color: $waterMarkColor;
+    /*text-shadow:$text-shadow-line $text-shadow-line $text-shadow-color,
+                $text-shadow-line (-$text-shadow-line) $text-shadow-color,
+                -$text-shadow-line (-$text-shadow-line) $text-shadow-color,
+                -$text-shadow-line $text-shadow-line $text-shadow-color;*/
+}
+
+
+.circle-mark{
+    width: 2000px;
+    height: 300%;
+    top: -100%;
+    left: 45%;
+    background: $circle-color;
+    opacity: 20%;
+    border-radius: 100% 0% 0% 100%;
+}

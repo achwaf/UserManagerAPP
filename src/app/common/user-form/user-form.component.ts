@@ -8,6 +8,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { IModel } from 'src/app/model/i-model';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'app-user-form',
@@ -29,7 +30,8 @@ export class UserFormComponent implements OnInit {
 
   @Input() layout: FormLayout = FormLayout.LOGIN;
 
-  constructor(private animalService: AnimalService, private apiService: ApiService,private authService:AuthService, private toastr: ToastrService) { }
+  constructor(private animalService: AnimalService, private apiService: ApiService, private authService: AuthService,
+    private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.selectedAvatar = this.animalService.next();
@@ -90,34 +92,42 @@ export class UserFormComponent implements OnInit {
     let userToLogin = {
       username: this.username!,
       password: this.password,
-      avatar:0
+      avatar: 0
     }
     // generate a sessionID
     let sessionID = this.authService.generateSessionID();
-    console.log(sessionID);
     // call the login api
-    this.apiService.loginUser(userToLogin,sessionID).subscribe((loginResponse:IModel) => {
+    this.apiService.loginUser(userToLogin, sessionID).subscribe((loginResponse: IModel) => {
       // user logged in
+      // set username
+      loginResponse.username = userToLogin.username;
       // call authService to save session details
-      this.authService.login(loginResponse,sessionID);
+      this.authService.login(loginResponse, sessionID);
+      // redirect to /list
+      this.router.navigate(['/list'])
     });
   }
 
   registerHandler() {
-    // gather data
-    let userToRegister = {
-      username: this.username!,
-      password: this.password,
-      avatar: this.selectedAvatar,
+    if(UsernameEnum.NOT_VALID === this.usernameState){
+      this.toastr.error('UserName is not valid');
+    }else{
+      // gather data
+      let userToRegister = {
+        username: this.username!,
+        password: this.password,
+        avatar: this.selectedAvatar,
+      }
+      // call the register api
+      this.apiService.registerUser(userToRegister).subscribe(() => {
+        // user registered
+        this.toastr.success('User registered');
+        // switch to login and clear the password
+        this.password = undefined;
+        this.changeLayout(FormLayout.LOGIN);
+      });
     }
-    // call the register api
-    this.apiService.registerUser(userToRegister).subscribe(() => {
-      // user registered
-      this.toastr.success('User registered');
-      // switch to login and clear the password
-      this.password = undefined;
-      this.changeLayout(FormLayout.LOGIN);
-    });
+    
   }
 
 }

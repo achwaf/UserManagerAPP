@@ -1,13 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IModel } from '../model/i-model';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   @ViewChild('refreshbutton') refreshButton?: ElementRef<HTMLElement>;
 
@@ -20,12 +21,12 @@ export class DashboardComponent {
   ];
   
   private newspaperTiming = {
-    duration:300,
+    duration:250,
     iterations: 1,
   }
   
 
-  constructor(){
+  constructor(private apiService:ApiService){
     this.userList = [{
       username:'suika.habouba@gmail.com',
       avatar: 10,
@@ -38,6 +39,9 @@ export class DashboardComponent {
       disabled: false,
       passwordShouldBeChanged: false
     }]
+  }
+  ngOnInit(): void {
+    this.refreshUsers();
   }
 
   createHandler(){
@@ -53,6 +57,13 @@ export class DashboardComponent {
     if(!!this.refreshButton){
       this.refreshButton.nativeElement.animate(this.newspaperSpinning, this.newspaperTiming);
     }
+    this.refreshUsers();
+  }
+
+  private refreshUsers(){
+    this.apiService.getListUsers().subscribe((users: IModel[]) => {
+      this.userList = users;
+    });
   }
 
 }
