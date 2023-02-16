@@ -30,7 +30,7 @@ export class TalkingAvatarComponent implements OnInit {
   }
 
   setAnimalImageSrc(){
-    if(!this.animal || this.animal < 1 ||  this.animal > 30){
+    if(!this.animal || this.animal < 1 ||  this.animal > this.animalService.animalsCount){
       // display this specific animal (star) when the animal selected is not valid
       this.animalImageSrc = `/assets/animals/0.png`;
     }else{

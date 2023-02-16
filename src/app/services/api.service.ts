@@ -53,7 +53,7 @@ export class ApiService {
     return this.http.get<IModel[]>(`${this.apiURL}/auth/users`, httpOptions).pipe(catchError(this.errorHandler('Error getting users')));
   }
 
-  performAction(action:UserAction, actionDetails:IModel){
+  performAction(action:UserAction, actionDetails?:IModel){
     const httpOptions = {
       headers: new HttpHeaders({
         'access-token':  this.authService.accessToken!,
@@ -63,10 +63,10 @@ export class ApiService {
     const body ={
       action:UserAction[action],
       actionDetails: {
-          username: actionDetails.username,
-          password: actionDetails.password,
-          passwordShouldBeChanged:actionDetails.passwordShouldBeChanged,
-          avatar: actionDetails.avatar
+          username: actionDetails?.username,
+          password: actionDetails?.password,
+          passwordShouldBeChanged:actionDetails?.passwordShouldBeChanged,
+          avatar: actionDetails?.avatar
       }
     }
     return this.http.post<string>(`${this.apiURL}/auth/manage`,body, httpOptions).pipe(catchError(this.errorHandler('Error performing action')));

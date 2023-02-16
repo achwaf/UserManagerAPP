@@ -3,6 +3,7 @@ import { IModel } from '../model/i-model';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { UserAction } from '../model/user-action';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,8 +36,11 @@ export class DashboardComponent implements OnInit {
   }
 
   createHandler(){
-    // redirect to manage with create action
-    this.router.navigate(['/manage'])
+    // redirect to manage
+    const param={
+      action:UserAction.CREATE_USER
+    }
+    this.router.navigate(['/manage'],{state:{param}})
   }
 
   refreshHandler(){

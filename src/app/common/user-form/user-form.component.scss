@@ -18,6 +18,11 @@
     color: limegreen;
 }
 
+.inactive{
+    pointer-events:none;
+    background: #efefef;
+}
+
 .user-form-container{
     min-width: 400px;    
 }

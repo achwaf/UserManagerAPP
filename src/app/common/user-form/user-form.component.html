@@ -9,15 +9,18 @@
         </div>
 
         <mdb-form-control class="mb-3 username-input d-flex align-items-center">
-            <input mdbInput [(ngModel)]="username" type="email" id="email" class="form-control" 
+            <input mdbInput [(ngModel)]="username" type="email" id="email" class="form-control"
+                [ngClass]="{'inactive':UserFormLayout.EDIT_SELF===layout || UserFormLayout.EDIT===layout}"
                 placeholder="username@example.com" aria-label="username@example.com" (focusout)="onFocusOutHandler()"
                 (focus)="onFocusHandler()" />
             <label mdbLabel class="form-label" for="email">Username</label>
             <ng-container *ngIf="showUsernameState">
                 <div [ngSwitch]="usernameState">
                     <div *ngSwitchCase="UsernameState.USED" class="warning-username me-2">used!</div>
-                    <div *ngSwitchCase="UsernameState.NOT_USED"  class="ok-username me-2"><fa-icon class=" fa-lg" [icon]="checked"></fa-icon></div>
-                    <div *ngSwitchCase="UsernameState.NOT_VALID" class="warning-username me-2"><fa-icon class=" fa-lg" [icon]="invalid"></fa-icon></div>
+                    <div *ngSwitchCase="UsernameState.NOT_USED" class="ok-username me-2"><fa-icon class=" fa-lg"
+                            [icon]="checked"></fa-icon></div>
+                    <div *ngSwitchCase="UsernameState.NOT_VALID" class="warning-username me-2"><fa-icon class=" fa-lg"
+                            [icon]="invalid"></fa-icon></div>
                 </div>
             </ng-container>
         </mdb-form-control>
@@ -34,7 +37,7 @@
         <div *ngIf="UserFormLayout.CREATE===layout || UserFormLayout.EDIT===layout" class="form-check form-switch mb-3">
             <label class="form-check-label fw-light" for="flexSwitchCheckDefault">Set password to change at first
                 login</label>
-            <input mdbCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+            <input mdbCheckbox [(ngModel)]="switchChecked" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
         </div>
 
         <ng-container [ngSwitch]="layout">
@@ -49,8 +52,8 @@
                 <a class="btn btn-info ms-3" (click)="registerHandler()">Register</a>
             </div>
             <div *ngSwitchDefault class="d-flex justify-content-end">
-                <button type="button" class="btn btn-tertiary" mdbRipple  (click)="cancelHandler()">Cancel</button>
-                <a class="btn btn-info ms-3"  (click)="saveHandler()">Save</a>
+                <button type="button" class="btn btn-tertiary" mdbRipple (click)="cancelHandler()">Cancel</button>
+                <a class="btn btn-info ms-3" (click)="saveHandler()">Save</a>
             </div>
         </ng-container>
 

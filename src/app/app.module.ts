@@ -42,6 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
       timeOut: 1500,
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
+      progressBar: true,
     }),
   ],
   providers: [],

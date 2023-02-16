@@ -48,7 +48,11 @@ export class UserPanelComponent {
     this.action = UserEnum.CHANGE_USER_PASS;
     this.showConfirm=false;
     // redirect to manage
-    this.router.navigate(['/manage'])
+    const param={
+      action:this.action,
+      user:this.user,
+    }
+    this.router.navigate(['/manage'],{state:{param}})
   }
 
   confirmHandler(){
@@ -60,12 +64,11 @@ export class UserPanelComponent {
         this.user.disabled =  !this.user.disabled;
       }else if(UserEnum.DELETE_USER === this.action){
         this.deleteMeEvent.emit(this.user);
-      }
+      }    
+      // clear
+      this.action = UserEnum.INITIAL;
+      this.showConfirm=false;
     });
-
-    // clear
-    this.action = UserEnum.INITIAL;
-    this.showConfirm=false;
   }
 
   cancelHandler(){

@@ -5,13 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class AnimalService {
 
-  remainingAnimals!: Array<number>;
+  private remainingAnimals!: Array<number>;
 
+  public readonly animalsCount:number=218;
 
   constructor() {
     this.initAnimals();
   }
-
 
   public next():number {
     if (this.remainingAnimals.length === 0) {
@@ -25,7 +25,7 @@ export class AnimalService {
   }
 
   private initAnimals() {
-    this.remainingAnimals = Array.from({ length: 30 }, (_, index) => index + 1);
+    this.remainingAnimals = Array.from({ length: this.animalsCount }, (_, index) => index + 1);
   }
 
 

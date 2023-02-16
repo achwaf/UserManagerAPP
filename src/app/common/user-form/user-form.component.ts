@@ -8,7 +8,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { IModel } from 'src/app/model/i-model';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from "@angular/router"
+import { ActivatedRoute, Router } from "@angular/router"
+import { map, Observable } from 'rxjs';
+import { UserAction } from 'src/app/model/user-action';
 
 @Component({
   selector: 'app-user-form',
@@ -19,29 +21,46 @@ export class UserFormComponent implements OnInit {
   UserFormLayout = FormLayout;
   UsernameState = UsernameEnum;
   passwordVisible: boolean = false;
-  selectedAvatar: number = 0;
+  selectedAvatar: number=0;
   checked = faCheck
   invalid = faXmark;
 
   username?: string;
-  password: string="";
+  password: string = "";
+  switchChecked?:boolean;
   usernameState?: UsernameEnum;
   showUsernameState?: boolean;
-
-  userModel?:IModel;
+  action?:UserAction;
 
   @Input() layout: FormLayout = FormLayout.LOGIN;
 
   constructor(private animalService: AnimalService, private apiService: ApiService, private authService: AuthService,
-    private toastr: ToastrService, private router: Router) { }
+    private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { 
+      // get params from route
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      if(!!state){
+        this.action = state['param'].action;
+        let userModel = state['param'].user;
+        // take user avatar if exists
+        if(userModel?.avatar){
+          this.selectedAvatar = userModel?.avatar
+        }else{
+          this.selectedAvatar = this.animalService.next();
+        }
+        // take username if exists
+        this.username = userModel?.username;
+      }
+    }
 
   ngOnInit(): void {
-    this.selectedAvatar = this.animalService.next();
+    // change to layout depending on action 
+    this.changeLayoutFromAction(this.action);
   }
 
   getPasswordType() {
     return this.passwordVisible ? 'text' : 'password';
   }
+
 
   onFocusOutHandler() {
     // checks
@@ -83,10 +102,21 @@ export class UserFormComponent implements OnInit {
     this.passwordVisible = false;
   }
 
-  changeLayout(layout: FormLayout) {
+  changeLayout(layout: FormLayout, changeAvatar:boolean=true) {
+    if(changeAvatar){
+      this.selectedAvatar = this.animalService.next();
+    }
     this.layout = layout;
     this.passwordVisible = false;
     this.onFocusOutHandler();
+  }
+
+  private changeLayoutFromAction(action?:UserAction){
+    switch (action){
+      case UserAction.CHANGE_OWN_PASS: this.changeLayout(FormLayout.EDIT_SELF,false);break;
+      case UserAction.CHANGE_USER_PASS: this.changeLayout(FormLayout.EDIT,false);break;
+      case UserAction.CREATE_USER: this.changeLayout(FormLayout.CREATE,false);break;
+    }
   }
 
   loginHandler() {
@@ -111,9 +141,9 @@ export class UserFormComponent implements OnInit {
   }
 
   registerHandler() {
-    if(UsernameEnum.NOT_VALID === this.usernameState){
+    if (UsernameEnum.NOT_VALID === this.usernameState) {
       this.toastr.error('UserName is not valid');
-    }else{
+    } else {
       // gather data
       let userToRegister = {
         username: this.username!,
@@ -128,14 +158,25 @@ export class UserFormComponent implements OnInit {
         this.password = "";
         this.changeLayout(FormLayout.LOGIN);
       });
-    }    
+    }
   }
 
-  saveHandler(){
-
+  saveHandler() {
+    // if we got save button, action has been defined
+    const actionDetails = {
+      username: this.username!,
+      password: this.password,
+      passwordShouldBeChanged: this.switchChecked,
+      avatar: this.selectedAvatar
+    }
+    this.apiService.performAction(this.action!, actionDetails).subscribe(() => {
+      // action performed 
+      this.toastr.success('Action done');
+      this.router.navigate(['/list']);
+    });
   }
 
-  cancelHandler(){
-      this.router.navigate(['/list'])
+  cancelHandler() {
+    this.router.navigate(['/list'])
   }
 }
