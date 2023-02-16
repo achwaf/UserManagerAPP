@@ -6,4 +6,5 @@ export interface IModel {
     avatar: number;
     disabled?: boolean;
     passwordShouldBeChanged?: boolean;
+
 }

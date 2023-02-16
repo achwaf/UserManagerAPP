@@ -5,6 +5,9 @@ import { AnimalService } from 'src/app/services/animal.service';
 import { EMAIL_REGEX, PASSWORD_MAX, USERNAME_MAX } from 'src/app/utils/constants';
 import { UsernameState as UsernameEnum } from 'src/app/model/username-state';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastrService } from 'ngx-toastr';
+import { IModel } from 'src/app/model/i-model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-form',
@@ -26,7 +29,7 @@ export class UserFormComponent implements OnInit {
 
   @Input() layout: FormLayout = FormLayout.LOGIN;
 
-  constructor(private animalService: AnimalService, private apiService: ApiService) { }
+  constructor(private animalService: AnimalService, private apiService: ApiService,private authService:AuthService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.selectedAvatar = this.animalService.next();
@@ -83,7 +86,21 @@ export class UserFormComponent implements OnInit {
   }
 
   loginHandler() {
-    // call the login
+    // gather data
+    let userToLogin = {
+      username: this.username!,
+      password: this.password,
+      avatar:0
+    }
+    // generate a sessionID
+    let sessionID = this.authService.generateSessionID();
+    console.log(sessionID);
+    // call the login api
+    this.apiService.loginUser(userToLogin,sessionID).subscribe((loginResponse:IModel) => {
+      // user logged in
+      // call authService to save session details
+      this.authService.login(loginResponse,sessionID);
+    });
   }
 
   registerHandler() {
@@ -94,10 +111,12 @@ export class UserFormComponent implements OnInit {
       avatar: this.selectedAvatar,
     }
     // call the register api
-    this.apiService.registerUser(userToRegister).subscribe((used: string) => {
-      // user registered, switch to login
+    this.apiService.registerUser(userToRegister).subscribe(() => {
+      // user registered
+      this.toastr.success('User registered');
+      // switch to login and clear the password
       this.password = undefined;
-
+      this.changeLayout(FormLayout.LOGIN);
     });
   }
 
