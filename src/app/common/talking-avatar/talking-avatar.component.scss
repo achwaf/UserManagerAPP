@@ -36,6 +36,7 @@ $frame-size:45px;
 
 $box-shadow-line:1px;
 .quote-under{
+    display: none;
     z-index: 50;
     top: 0px;
     left: 0px;
@@ -58,6 +59,7 @@ $box-shadow-line:1px;
 }
 
 .quote-above{
+    display: none;
     z-index: 50;
     top: 0px;
     left: 0px;

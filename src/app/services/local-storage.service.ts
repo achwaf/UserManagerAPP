@@ -6,9 +6,10 @@ import * as shortUUID from 'short-uuid';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class LocalStorageService {
 
-  private loggedInUser?:UserModel;
+  private _loggedInUser?:UserModel;
+  get loggedInUser(){return this._loggedInUser};
 
   loggedInEvent = new EventEmitter<UserModel>();
   loggedOffEvent = new EventEmitter<string>();
@@ -22,9 +23,9 @@ export class AuthService {
   constructor() {
    }
 
-  public login(loginDetails:IModel, sessionId:string){
+  public saveLoginDetails(loginDetails:IModel, sessionId:string){
     // save user in the service
-    this.loggedInUser = new UserModel(loginDetails.username,loginDetails.avatar,!!loginDetails.passwordShouldBeChanged);
+    this._loggedInUser = new UserModel(loginDetails.username,loginDetails.avatar,!!loginDetails.passwordShouldBeChanged);
     // save accesstoken in the service
     this._accessToken = loginDetails.token;
     // save sessionId in the service
@@ -33,7 +34,23 @@ export class AuthService {
     // save also to local storage to reload the last session in case of refresh page or new tab
     this.saveToLocalStorage();
     // emit event
-    this.loggedInEvent.emit(this.loggedInUser);
+    this.loggedInEvent.emit(this._loggedInUser);
+  }
+
+  public isLoggedIn(){
+    if(this._loggedInUser){
+      // the user is still here, loegged in
+      return true;
+    }
+    return false;
+  }
+
+  public readFromLocalStorage():boolean{
+    // get the session in the local storage if it exists
+    this._sessionID = localStorage.getItem('sessionID') || undefined;
+    this._accessToken = localStorage.getItem('token') || undefined;
+    // both values should exist
+    return !!this._accessToken && !!this._sessionID;
   }
 
   public generateSessionID(){

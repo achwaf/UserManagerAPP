@@ -7,7 +7,7 @@ import { UsernameState as UsernameEnum } from 'src/app/model/username-state';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { IModel } from 'src/app/model/i-model';
-import { AuthService } from 'src/app/services/auth.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ActivatedRoute, Router } from "@angular/router"
 import { map, Observable } from 'rxjs';
 import { UserAction } from 'src/app/model/user-action';
@@ -34,7 +34,7 @@ export class UserFormComponent implements OnInit {
 
   @Input() layout: FormLayout = FormLayout.LOGIN;
 
-  constructor(private animalService: AnimalService, private apiService: ApiService, private authService: AuthService,
+  constructor(private animalService: AnimalService, private apiService: ApiService, private localStorageService: LocalStorageService,
     private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { 
       // get params from route
       const state = this.router.getCurrentNavigation()?.extras.state;
@@ -127,14 +127,14 @@ export class UserFormComponent implements OnInit {
       avatar: 0
     }
     // generate a sessionID
-    let sessionID = this.authService.generateSessionID();
+    let sessionID = this.localStorageService.generateSessionID();
     // call the login api
     this.apiService.loginUser(userToLogin, sessionID).subscribe((loginResponse: IModel) => {
       // user logged in
       // set username
       loginResponse.username = userToLogin.username;
-      // call authService to save session details
-      this.authService.login(loginResponse, sessionID);
+      // call localStorageService to save session details
+      this.localStorageService.saveLoginDetails(loginResponse, sessionID);
       // redirect to /list
       this.router.navigate(['/list'])
     });
