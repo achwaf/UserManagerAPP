@@ -53,6 +53,20 @@ export class ApiService {
     return this.http.get<IModel[]>(`${this.apiURL}/auth/users`, httpOptions).pipe(catchError(this.errorHandler('Error getting users')));
   }
 
+  refreshUser() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-token': this.localStorageService.accessToken!,
+        'session-id': this.localStorageService.sessionID!
+      })
+    };
+    this.http.get<IModel>(`${this.apiURL}/auth/user`, httpOptions)
+      .pipe(catchError(this.errorHandler('Error refreshing your user')))
+      .subscribe((user: IModel) => {
+        this.localStorageService.saveUser(user);
+      });
+  }
+
   performAction(action: UserAction, actionDetails?: IModel) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -85,19 +99,19 @@ export class ApiService {
       const httpOptions = {
         headers: new HttpHeaders(retrievedSession)
       };
-      try{
+      try {
         const user = await firstValueFrom(this.http.get<IModel>(`${this.apiURL}/auth/user`, httpOptions)
-        .pipe(timeout({ first: 2_000 }))); // we wait for the response with a timeout of 2 seconds
+          .pipe(timeout({ first: 2_000 }))); // we wait for the response with a timeout of 2 seconds
         // set the token because the api does not return it
-        user.token=retrievedSession['access-token'];
-        this.localStorageService.saveLoginDetails(user,retrievedSession['session-id']);
+        user.token = retrievedSession['access-token'];
+        this.localStorageService.saveLoginDetails(user, retrievedSession['session-id']);
         return true;
-      }catch(e){
+      } catch (e) {
         // either it's too late because of the timeout or there is an error getting the user
         // we consider there is no user logged in
         return false
       }
-    }else{
+    } else {
       // no session found
       return false;
     }

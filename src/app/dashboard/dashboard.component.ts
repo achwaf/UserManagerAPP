@@ -17,12 +17,12 @@ export class DashboardComponent implements OnInit {
   refresh=faRotateRight;
   userList!:IModel[];
 
-  private newspaperSpinning = [
+  private iconSpinning = [
     { transform: 'rotate(0)' },
     { transform: 'rotate(360deg)' }
   ];
   
-  private newspaperTiming = {
+  private iconTiming = {
     duration:250,
     iterations: 1,
   }
@@ -45,15 +45,18 @@ export class DashboardComponent implements OnInit {
 
   refreshHandler(){
     if(!!this.refreshButton){
-      this.refreshButton.nativeElement.animate(this.newspaperSpinning, this.newspaperTiming);
+      this.refreshButton.nativeElement.animate(this.iconSpinning, this.iconTiming);
     }
     this.refreshUsers();
   }
 
   private refreshUsers(){
+    // refresh the users in the list
     this.apiService.getListUsers().subscribe((users: IModel[]) => {
       this.userList = users;
     });
+    // refresh the user in topBar which is listening to user change
+    this.apiService.refreshUser();
   }
 
   deleteUserHandler(user:IModel){

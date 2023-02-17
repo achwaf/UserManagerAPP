@@ -2,8 +2,19 @@
     <div class="app-name p-2 align-self-center">
         User Manager APP
     </div>
-    <div class="d-flex flex-fill justify-content-end p-2 align-items-center">
-        <div class="p-2 fw-bolder color-main">{{user.getName()}}</div>
-        <app-talking-avatar [position]="QuotePosition.UNDER" [animal]="user.avatar" loggedin></app-talking-avatar>
+    <div class="d-flex flex-fill justify-content-end pe-2 align-items-center">
+        <div class="user-profile d-flex align-items-center p-2 btn btn-rounded"  (click)="profileHandler()">
+             <div class="p-2 fw-bolder user-name color-main">{{user.getName()}}</div>
+            <app-talking-avatar [position]="QuotePosition.UNDER" [animal]="user.avatar" loggedin></app-talking-avatar>
+        </div>
     </div>
+    <ul *ngIf="showMenu" class="dropdown-menu position-absolute me-2" (mouseleave)="closeMenu()">
+        <li><a class="dropdown-item" (click)="editeHandler()"><fa-icon class="me-3" [icon]="edit"></fa-icon>Edit user</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" (click)="ineractHandler()"><fa-icon class="me-3" [icon]="interact"></fa-icon>Interact</a></li>
+        <li><a class="dropdown-item" (click)="voteHandler()"><fa-icon class="me-3" [icon]="vote"></fa-icon>Do a vote</a></li>
+        <li><a class="dropdown-item" (click)="controlHandler()"><fa-icon class="me-3" [icon]="control"></fa-icon>Give control</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" (click)="logoutHandler()"><fa-icon class="me-3" [icon]="logout"></fa-icon>Log out</a></li>
+    </ul>
 </div>

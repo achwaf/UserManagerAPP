@@ -25,7 +25,7 @@ export class LocalStorageService {
 
   public saveLoginDetails(loginDetails:IModel, sessionId:string){
     // save user in the service
-    this._loggedInUser = new UserModel(loginDetails.username,loginDetails.avatar,!!loginDetails.passwordShouldBeChanged);
+    this.saveUser(loginDetails);
     // save accesstoken in the service
     this._accessToken = loginDetails.token;
     // save sessionId in the service
@@ -35,6 +35,24 @@ export class LocalStorageService {
     this.saveToLocalStorage();
     // emit event
     this.loggedInEvent.emit(this._loggedInUser);
+  }
+
+  public saveUser(loginDetails:IModel){
+    // save user in the service
+    this._loggedInUser = new UserModel(loginDetails.username,loginDetails.avatar,!!loginDetails.passwordShouldBeChanged);
+    // emit event
+    this.loggedInEvent.emit(this._loggedInUser);
+  }
+
+  public clearLoginDetails(){
+    // clear local variables
+    this._sessionID = undefined;
+    this._accessToken = undefined;
+    this._loggedInUser = undefined;
+    // clear localstorage
+    this.clearLocalStorage();
+    // emit event
+    this.loggedOffEvent.emit("logoff");
   }
 
   public isLoggedIn(){

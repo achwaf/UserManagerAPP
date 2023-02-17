@@ -12,6 +12,24 @@ $waterMarkColor: $color-2;
     background-color: $color-1;
 }
 
+.user-profile{
+    background: $color-2;
+    .user-name{
+        font-size: 1rem;
+        text-transform: none;
+    }
+}
+
+.dropdown-menu{
+    top: 100%;
+    right:0px;
+    margin-top: 10px;
+
+    fa-icon{
+        color: #a5d75a;
+    }
+}
+
 .app-name{
     font-size: 3rem;
     font-family: snesFont !important;
