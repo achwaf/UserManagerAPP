@@ -32,7 +32,7 @@ export class UserFormComponent implements OnInit {
   showUsernameState?: boolean;
   action?:UserAction;
 
-  @Input() layout: FormLayout = FormLayout.LOGIN;
+  @Input() layout: FormLayout = FormLayout.CREATE;
 
   constructor(private animalService: AnimalService, private apiService: ApiService, private localStorageService: LocalStorageService,
     private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { 
@@ -53,14 +53,13 @@ export class UserFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    // change to layout depending on action 
+    // change to layout depending on action found in state
     this.changeLayoutFromAction(this.action);
   }
 
   getPasswordType() {
     return this.passwordVisible ? 'text' : 'password';
   }
-
 
   onFocusOutHandler() {
     // checks
@@ -84,7 +83,6 @@ export class UserFormComponent implements OnInit {
     }
 
   }
-
 
   onFocusHandler() {
     this.showUsernameState = false;
@@ -115,7 +113,8 @@ export class UserFormComponent implements OnInit {
     switch (action){
       case UserAction.CHANGE_OWN_PASS: this.changeLayout(FormLayout.EDIT_SELF,false);break;
       case UserAction.CHANGE_USER_PASS: this.changeLayout(FormLayout.EDIT,false);break;
-      case UserAction.CREATE_USER: this.changeLayout(FormLayout.CREATE,false);break;
+      case UserAction.CREATE_USER: this.changeLayout(FormLayout.CREATE,true);break;
+      default: this.changeLayout(this.layout,true);break;
     }
   }
 

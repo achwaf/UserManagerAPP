@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { faCircleUser, faComment, faHand, faNoteSticky } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { QuotePosition as QuoteEnum } from 'src/app/model/quote-position';
@@ -21,53 +21,69 @@ export class TopBarComponent implements OnInit {
   edit = faCircleUser;
   logout = faArrowRightFromBracket;
 
-  showMenu:boolean=false;
+  showMenu: boolean = false;
+  showInteractions:boolean = true;
 
   user?: UserModel;
 
-  constructor(private apiService:ApiService, private router:Router, private localStorageService: LocalStorageService) {
+  constructor(private apiService: ApiService, private router: Router, private localStorageService: LocalStorageService) {
     this.localStorageService.loggedInEvent.subscribe(
       loggedInUser => {
         this.user = loggedInUser;
       });
+    this.localStorageService.loggedOffEvent.subscribe(
+      loggedInUser => {
+        this.user = undefined;
+      });
+      router.events.subscribe((event: Event) => {
+        if (event instanceof NavigationEnd) {
+          // show the interactions menu only on the dashboard '/list'
+          if('/manage' == event.url){
+            this.showInteractions = false;
+          }else{
+            this.showInteractions = true;
+          }
+        }
+      });
   }
+
   ngOnInit(): void {
     // in case of refresh of the page, the listener in the constructor reacts before OnInit
     // so we take the user from localStorageService if undefined
-    if(!this.user){
+    if (!this.user) {
       this.user = this.localStorageService.loggedInUser;
     }
   }
 
-  profileHandler(){
+  profileHandler() {
     this.showMenu = !this.showMenu;
   }
 
-  closeMenu(){
+  closeMenu() {
     this.showMenu = false;
   }
 
-  editeHandler() { 
+  editeHandler() {
     this.closeMenu();
     // redirect to edit user
-    const param={
-      action:UserAction.CHANGE_OWN_PASS,
-      user:this.user,
+    const param = {
+      action: UserAction.CHANGE_OWN_PASS,
+      user: this.user,
     }
-    this.router.navigate(['/manage'],{state:{param}})
+    this.router.navigate(['/manage'], { state: { param } })
   }
 
-  ineractHandler() {     
+  ineractHandler() {
     this.closeMenu();
   }
-    voteHandler() { 
-      this.closeMenu();
+  voteHandler() {
+    this.closeMenu();
   }
   controlHandler() {
     this.closeMenu();
-   }
+  }
 
-  logoutHandler() { 
+  logoutHandler() {
     this.closeMenu();
     // logout 
     this.localStorageService.clearLoginDetails();

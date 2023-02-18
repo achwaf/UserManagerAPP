@@ -11,10 +11,12 @@
     <ul *ngIf="showMenu" class="dropdown-menu position-absolute me-2" (mouseleave)="closeMenu()">
         <li><a class="dropdown-item" (click)="editeHandler()"><fa-icon class="me-3" [icon]="edit"></fa-icon>Edit user</a></li>
         <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" (click)="ineractHandler()"><fa-icon class="me-3" [icon]="interact"></fa-icon>Interact</a></li>
-        <li><a class="dropdown-item" (click)="voteHandler()"><fa-icon class="me-3" [icon]="vote"></fa-icon>Do a vote</a></li>
-        <li><a class="dropdown-item" (click)="controlHandler()"><fa-icon class="me-3" [icon]="control"></fa-icon>Give control</a></li>
-        <li><hr class="dropdown-divider" /></li>
+        <ng-container *ngIf="showInteractions">
+             <li><a class="dropdown-item" (click)="ineractHandler()"><fa-icon class="me-3" [icon]="interact"></fa-icon>Interact</a></li>
+            <li><a class="dropdown-item" (click)="voteHandler()"><fa-icon class="me-3" [icon]="vote"></fa-icon>Do a vote</a></li>
+            <li><a class="dropdown-item" (click)="controlHandler()"><fa-icon class="me-3" [icon]="control"></fa-icon>Give control</a></li>
+            <li><hr class="dropdown-divider" /></li>
+        </ng-container>       
         <li><a class="dropdown-item" (click)="logoutHandler()"><fa-icon class="me-3" [icon]="logout"></fa-icon>Log out</a></li>
     </ul>
 </div>

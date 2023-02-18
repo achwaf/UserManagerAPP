@@ -17,6 +17,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserPanelComponent } from './common/user-panel/user-panel.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { RouteReuseStrategy } from '@angular/router';
+import { AppRouteReuseStrategy } from './utils/app-route-reuse-strategy';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true,
     }),
   ],
-  providers: [],
+  providers: [
+    {provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
