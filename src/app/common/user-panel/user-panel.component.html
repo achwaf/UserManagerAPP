@@ -1,6 +1,8 @@
 <div class="d-flex">
-    <app-talking-avatar #talker [position]="QuotePosition.ABOVE" [animal]="user.avatar" [disabled]="!!user.disabled"></app-talking-avatar>
-    <div class="ms-2 p-2 fw-bolder color-main" [ngClass]="{'shortened' : showConfirm, 'disabled': user.disabled}">{{user.username}}</div>
+    <app-talking-avatar #talker [position]="QuotePosition.ABOVE" [animal]="user.avatar" [username]="user.username"
+        [disabled]="!!user.disabled"></app-talking-avatar>
+    <div class="ms-2 p-2 fw-bolder color-main" [ngClass]="{'shortened' : showConfirm, 'disabled': user.disabled}">
+        {{user.username}}</div>
     <ng-container [ngSwitch]="showConfirm">
         <div *ngSwitchCase="false" class="d-flex justify-content-end flex-grow-1 user-actions">
             <button type="button" class="btn btn-tertiary mx-2" mdbRipple (click)="editHandler()">
@@ -15,9 +17,9 @@
             <button type="button" class="btn btn-tertiary ms-2" (click)="deleteHandler()">
                 <fa-icon class=" fa-lg" [icon]="delete"></fa-icon>
             </button>
-            
+
         </div>
-        <div  *ngSwitchCase="true" class="d-flex justify-content-end flex-grow-1 align-items-center">
+        <div *ngSwitchCase="true" class="d-flex justify-content-end flex-grow-1 align-items-center">
             <div [ngSwitch]="action" class="me-2 user-confirmation">
                 <div *ngSwitchCase="UserAction.DELETE_USER" class="warning">Confirm deletion?</div>
                 <div *ngSwitchCase="UserAction.DISABLE_USER">Disable user?</div>

@@ -7,3 +7,10 @@ export enum InteractEvent
     CONFIRM_DISABLE,
 
 }
+
+export enum InteractParticipant
+{
+   SOMEONE,
+   ALL,
+   FEW,
+}

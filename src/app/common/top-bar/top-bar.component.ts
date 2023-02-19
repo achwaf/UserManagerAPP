@@ -6,6 +6,7 @@ import { QuotePosition as QuoteEnum } from 'src/app/model/quote-position-enum';
 import { UserAction } from 'src/app/model/user-action-enum';
 import { UserModel } from 'src/app/model/user-model';
 import { ApiService } from 'src/app/services/api.service';
+import { InteractService } from 'src/app/services/interact.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
@@ -26,7 +27,7 @@ export class TopBarComponent implements OnInit {
 
   user?: UserModel;
 
-  constructor(private apiService: ApiService, private router: Router, private localStorageService: LocalStorageService) {
+  constructor(private apiService: ApiService, private router: Router, private localStorageService: LocalStorageService, private interactService:InteractService) {
     this.localStorageService.loggedInEvent.subscribe(
       loggedInUser => {
         this.user = loggedInUser;
@@ -73,8 +74,12 @@ export class TopBarComponent implements OnInit {
     this.router.navigate(['/manage'], { state: { param } })
   }
 
-  ineractHandler() {
+  interactHandler() {
     this.closeMenu();
+
+    // call service for interaction
+    
+
   }
   voteHandler() {
     this.closeMenu();

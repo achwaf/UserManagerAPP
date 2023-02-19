@@ -6,8 +6,9 @@ import { faTrashAlt, faPenToSquare, faRectangleXmark, faCheckSquare } from '@for
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
-import { TalkingAvatarComponent } from '../talking-avatar/talking-avatar.component';
 import { InteractEvent } from 'src/app/model/interact-event-enum';
+import { InteractService } from 'src/app/services/interact.service';
+import { INotifiable } from 'src/app/model/i-notifiable';
 
 @Component({
   selector: 'app-user-panel',
@@ -25,9 +26,9 @@ export class UserPanelComponent {
   @Input() user!: IModel;
   @Output() deleteMeEvent = new EventEmitter<IModel>();
 
-  @ViewChild('talker') avatar!: TalkingAvatarComponent;
+  @ViewChild('talker') avatar!: INotifiable;
 
-  constructor(private apiService: ApiService, private router: Router, private toastr: ToastrService) { }
+  constructor(private apiService: ApiService, private router: Router, private interactService: InteractService, private toastr: ToastrService) { }
 
 
   action: UserEnum = UserEnum.INITIAL;
@@ -75,8 +76,11 @@ export class UserPanelComponent {
         this.avatar.notify(InteractEvent.CONFIRM_DISABLE);
 
       } else if (UserEnum.DELETE_USER === this.action) {
-        this.deleteMeEvent.emit(this.user);
         //no need to notify the avatar, it will be removed anyway
+        // however we should deregister the avatar from interactService
+        this.interactService.unregister(this.avatar);
+        // send event to delete self from the parent
+        this.deleteMeEvent.emit(this.user);
       }
       // clear
       this.action = UserEnum.INITIAL;

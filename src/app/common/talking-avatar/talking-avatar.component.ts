@@ -9,6 +9,7 @@ import { AvatarState } from 'src/app/model/avatar-state-enum';
 import { InteractService } from 'src/app/services/interact.service';
 import { IQuote, STOP } from 'src/app/utils/interactions';
 import { InteractEvent } from 'src/app/model/interact-event-enum';
+import { INotifiable } from 'src/app/model/i-notifiable';
 
 const MAX_FIRST_DELAY = 1000;
 const MAX_DELAY = 6000;
@@ -21,7 +22,7 @@ const STOP_UNIT_DELAY = 300;
   styleUrls: ['./talking-avatar.component.scss'],
   providers: [Unsubscriber]
 })
-export class TalkingAvatarComponent implements OnInit {
+export class TalkingAvatarComponent implements OnInit, INotifiable {
 
   @Input() position: QuotePosition = QuotePosition.NONE;
   @Input() disabled: boolean = false;
@@ -35,10 +36,16 @@ export class TalkingAvatarComponent implements OnInit {
     this.setAnimalImageSrc();
   }
 
+  private _username?:string;
+  @Input()
+  set username(value: string) {
+    this._username = value;
+  }
+
   private idleTimer: Observable<number> = timer(IDLE_DELAY, IDLE_DELAY);
-  private character: AvatarCharacter;
-  private behavior: AvatarBehavior;
-  private category: string;
+  private character: AvatarCharacter=AvatarCharacter.NOT_REACTIVE;
+  private behavior: AvatarBehavior=AvatarBehavior.NORMAL;
+  private category?: string;
   private quote?: IQuote;
   private event?: InteractEvent;
   private state: AvatarState = AvatarState.READY_TO_REACT;
@@ -50,15 +57,20 @@ export class TalkingAvatarComponent implements OnInit {
 
 
   constructor(private animalService: AnimalService, private interactService: InteractService, private readonly unsubscriber: Unsubscriber) {
-    this.character = AvatarCharacter.MORE_REACTIVE;
-    this.behavior = AvatarBehavior.NORMAL;
-    this.category = AvatarBehavior[this.behavior];
+    
+  }
+
+  getUsername() {
+    return this._username;
   }
 
   ngOnInit(): void {
     this.setAnimalImageSrc();
     // tick avery second
     this.idleTimer.pipe(this.unsubscriber.takeUntilDestroy).subscribe(/*(x) => console.log(x)*/);
+    // register for interaction
+    [this.character,this.behavior] = this.interactService.register(this);
+    this.category = AvatarBehavior[this.behavior];
   }
 
   setAnimalImageSrc() {
@@ -82,7 +94,7 @@ export class TalkingAvatarComponent implements OnInit {
    * interaction logic
    */
 
-  notify(event: InteractEvent) {
+  notify(event: InteractEvent):void {
     // keep the event for later use
     this.event = event;
     // stop interactions from keep going
