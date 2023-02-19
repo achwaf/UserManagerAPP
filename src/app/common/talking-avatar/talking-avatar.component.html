@@ -7,14 +7,14 @@
             alt=""
         />
     </div>
-    <div #underquote *ngIf="isUnder()" [ngClass]="{'mute':!quote}" class="quote-under position-absolute w-100 ">        
+    <div #underquote *ngIf="isUnder()" [ngClass]="{'mute':!text}" class="quote-under position-absolute w-100 ">        
         <div class="position-relative">
             <div class="quote-text">
                 {{text}}
             </div>
         </div>
     </div>
-    <div #abovequote *ngIf="isAbove()" [ngClass]="{'mute':!quote}"   class="quote-above position-absolute w-100">        
+    <div #abovequote *ngIf="isAbove()" [ngClass]="{'mute':!text}"   class="quote-above position-absolute w-100">        
         <div class="position-relative">
             <div class="quote-text">
                 {{text}}
