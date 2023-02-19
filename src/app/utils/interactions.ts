@@ -1,47 +1,118 @@
 import { InteractEvent } from "../model/interact-event-enum";
 
-export enum STOP{
-    SHORT='.',
-    MEDIUM='..',
-    LONG='...'
+const CANCEL = InteractEvent.CANCEL;
+const DELETE = InteractEvent.DELETE;
+const DISABLE = InteractEvent.DISABLE;
+const ENABLE = InteractEvent.CONFIRM_ENABLE;
+
+export enum STOP {
+    SHORT = '.',
+    MEDIUM = '..',
+    LONG = '...'
 }
 
 export interface IQuote {
-    parts: string[], goto: string, event?:InteractEvent, onlystart: boolean, end: boolean, 
+    parts: string[], goto: string, event: InteractEvent[], onlystart: boolean, end: boolean,
 }
 
 export interface IQuotes {
     [key: string]: IQuote[];
 }
-export const QUOTES: IQuotes = {
 
-    NORMAL: [
-        { parts: ['hey','hey hey','hey', 'what are you doing?'], goto: '', onlystart: false, end: true },
-        { parts: ['hey','hey','HEY!', 'what are you doing?'], goto: '', onlystart: false, end: true },
-        { parts: ['hey','sir or madam','please', 'what are you doing?'], goto: '', onlystart: false, end: true },
-        { parts: ['hey wait','please','no'], goto: '', onlystart: false, end: true },
-        { parts: ['could you not!'], goto: '', onlystart: true, end: false },
-        { parts: ['please no'], goto: '', onlystart: false, end: false },
-        { parts: ['come on','.','what\'s now'], goto: '', onlystart: false, end: false },
-        { parts: ['come on','...'], goto: '', onlystart: false, end: false },
-        { parts: ['I don\'t like this'], goto: '', onlystart: false, end: false },
-        { parts: ['I want','.','I want to stay longer','please'], goto: '', onlystart: false, end: false },
-        { parts: ['If you do it','.','I','..','I can\'t do nothing'], goto: '', onlystart: false, end: false },
-        { parts: ['come','..','on','..'], goto: '', onlystart: false, end: false },
-        { parts: ['please don\'t'], goto: '', onlystart: false, end: false },
-        { parts: ['please don\'t'], goto: '', onlystart: false, end: false },
-        { parts: ['you want to delete me?','..','what','.','what did I do?'], goto: '', onlystart: false, end: false },
-        { parts: ['why','..','why?','...','just why?'], goto: '', onlystart: false, end: false },
-        { parts: ['but','.','did I do something?','to you, maybe?','or','..','to myself?'], goto: '', onlystart: false, end: false },
-        { parts: ['ok','ok','ok', 'let\'s calm a bit down, shall we'], goto: '', onlystart: false, end: false },
-    ],
-    SOCIALLY_POOR: [
-        { parts: ['hey', '...','are you crazy'], goto: '', onlystart: false, end: false },
-        { parts: ['come come come come','...'], goto: '', onlystart: false, end: false },
-    ]
+const NORMAL: IQuote[] = [
+    // DELETE | DISABLE
+    { event: [DELETE, DISABLE], parts: ['hey', 'hey hey', 'hey', 'what are you doing?'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['hey', 'hey', 'HEY!', 'what are you doing?'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['hey', 'sir    ', '.', 'or madam', 'what are you doing?'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['hey'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['hey wait', 'please', 'no'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['wait', 'wait', 'wait', '..', 'don\'t do it  ', 'please'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['huh', 'what!'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['could you not!'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['oh no      '], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['oh come on'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['ok', 'ok', 'let\'s calm down a bit, shall we'], goto: '', onlystart: true, end: false },
+    { event: [DELETE, DISABLE], parts: ['ok', 'ok', 'calm down'], goto: '', onlystart: true, end: false },
 
+    { event: [DELETE, DISABLE], parts: ['please no'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['pleaaaase'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['no   ', 'don\'t', '.', 'don\'t', '...', 'please don\'t'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['come on', '.', 'what now    '], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['come on', '...'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I don\'t like this'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I don\'t like what is happening', 'it didn\'t happen', 'yet   ', 'but please'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I don\'t like what is happening'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I want', '.', 'I want to stay longer', 'please'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I want to stay longer'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['do you have a reason for this?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['is there a reason behind this?', 'a good reason?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['why would you?', '.', 'hein'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['why?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['why me?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['for what reason?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['If you do it', '.', 'I', '..', 'I can\'t do nothing'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['If you do it', '.', 'well', 'I can\'t do nothing'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['If you do it', '.', 'well', '.', 'just don\'t do it', 'please'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['come     ', 'on', '..'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['please don\'t'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['what did I do?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I didn\'t do anything'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I didn\'t do anything', '.', 'you hear me'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I did nothing'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['I did nothing', '.', 'nothing bad'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['please reconsider your action'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['you hate me?', '.', 'is that why?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['you do not like me?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['it\'s sad', 'it\'s sad what you are going to do'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['it\'s bad'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['it\'s sad', '..', 'and bad'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['why', '..', 'why?', '...', 'just why?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['did I do something?', 'to you, maybe?', 'or', '.', 'to myself?'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['did I do something wrong?'], goto: '', onlystart: false, end: false },
 
+    { event: [DELETE, DISABLE], parts: ['well', '.', 'if you want to do it', 'I can\'t stop you', 'I mean', '..', 'I can do nothing', '.', 'but please don\'t', '...', 'I am not begging anymore'], goto: '', onlystart: false, end: true },
+    { event: [DELETE, DISABLE], parts: [''], goto: '', onlystart: false, end: true },
 
+    // DELETE
+    { event: [DELETE], parts: ['you want to delete me?', '..', 'why'], goto: '', onlystart: true, end: false },
 
+    { event: [DELETE], parts: ['deleting is a bad', 'very bad action'], goto: '', onlystart: false, end: false },
+    { event: [DELETE], parts: ['deleting is not good',], goto: '', onlystart: false, end: false },
+    { event: [DELETE], parts: ['people go to jail for deleting', 'well', '..', 'it depends on what was deleted'], goto: '', onlystart: false, end: false },
 
-}
+    // DISABLE
+    { event: [DISABLE], parts: ['you want to disable me?', '..', 'why'], goto: '', onlystart: true, end: false },
+
+    { event: [DISABLE], parts: ['disabling is a bad action', 'not as bas as deleting, though', '..', 'but', 'it is\'s still bad'], goto: '', onlystart: false, end: false },
+
+    { event: [DISABLE], parts: ['ok', 'ok', '.', 'I get it', '..', 'you want to disable me to shut me up', 'don\'t do it', 'I will not talk anymore'], goto: '', onlystart: true, end: true },
+    // CANCEL
+    { event: [CANCEL], parts: ['oof', '.', 'thank you'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['thank you'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['thanks'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['thanks', '.', 'a lot'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['thanks a lot'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['yaaay', 'I am still here'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['yaaay'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['what a relief!'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['you are a good person'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['oh     ', 'ok'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['oh     ', 'never mind'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['ok', '..', 'many thanks'], goto: '', onlystart: false, end: true },
+];
+
+const SOCIALLY_POOR: IQuote[] = [ ...NORMAL,
+
+    // DISABLE, DELETE
+    { event: [], parts: ['hey', '..', 'are you crazy'], goto: '', onlystart: false, end: false },
+    { event: [], parts: ['come', '.', 'on                    '], goto: '', onlystart: false, end: false },
+
+    // DELETE
+
+    // DISABLE
+
+    // CANCEL
+]
+
+export const QUOTES: IQuotes = { NORMAL, SOCIALLY_POOR };
+

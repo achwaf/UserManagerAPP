@@ -4,5 +4,6 @@ export enum InteractEvent
     DISABLE,
     CANCEL,
     CONFIRM_ENABLE,
-     
+    CONFIRM_DISABLE,
+
 }

@@ -13,15 +13,23 @@ export class InteractService {
   /**
    * pick a quote different from the last one
    */
-  pickQuote(event: InteractEvent, category: string, lastCategory?: string, lastQuoteSelect?: number,): [IQuote,number] {
-    const randomSelect = Math.floor(Math.random() * (QUOTES[category].length));
-    const quote = QUOTES[category][randomSelect];
-    if ((lastQuoteSelect && quote.onlystart) ||  // if quote is onlystart and we had a previous quote,
-        (category === lastCategory && randomSelect === lastQuoteSelect) || // or if the same quote as previous
-        (quote.event && event === quote.event)) { // or if quote has an event and it's not the same as asked
-      return this.pickQuote(event, category, lastCategory, lastQuoteSelect)  // we should repick again
+  pickQuote(event: InteractEvent, category: string, lastQuote?:IQuote): IQuote | undefined {
+    // filter on event and category
+    const quotes = QUOTES[category].filter(q => !q.event.length || q.event.includes(event));
+    if(!quotes.length){
+      return;
     }
-    return [QUOTES[category][randomSelect],randomSelect];
+    // select randomly
+    const randomSelect = Math.floor(Math.random() * (quotes.length));
+    const quote = quotes[randomSelect];
+    if (
+       // if quote is onlystart and we had a previous quote
+      (lastQuote && quote.onlystart) || 
+      // or if the quote is same as previous 
+      (lastQuote===quote)) { 
+      return this.pickQuote(event, category, lastQuote)  // we should repick again
+    }
+    return quote;
   }
 
 

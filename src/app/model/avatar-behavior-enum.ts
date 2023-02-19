@@ -1,10 +1,9 @@
 export enum AvatarBehavior
  {
-    SUICIDER,
+    NORMAL,
+    STORY_TELLER,
     NO_BELIEVER,
     ARROGANT,
-    SOCIALLY_POOR,
-    NORMAL,
     PSYCHO,
     ANGRY,
     ACCEPTING,
@@ -15,5 +14,6 @@ export enum AvatarBehavior
     NEGOCIATOR,
     STRANGER,
     EMOTICON,
+    SUICIDER,
 
 }

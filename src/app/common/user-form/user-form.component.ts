@@ -21,36 +21,36 @@ export class UserFormComponent implements OnInit {
   UserFormLayout = FormLayout;
   UsernameState = UsernameEnum;
   passwordVisible: boolean = false;
-  selectedAvatar: number=0;
+  selectedAvatar: number = 0;
   checked = faCheck
   invalid = faXmark;
 
   username?: string;
   password: string = "";
-  switchChecked?:boolean;
+  switchChecked?: boolean;
   usernameState?: UsernameEnum;
   showUsernameState?: boolean;
-  action?:UserAction;
+  action?: UserAction;
 
   @Input() layout: FormLayout = FormLayout.CREATE;
 
   constructor(private animalService: AnimalService, private apiService: ApiService, private localStorageService: LocalStorageService,
-    private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { 
-      // get params from route
-      const state = this.router.getCurrentNavigation()?.extras.state;
-      if(!!state){
-        this.action = state['param'].action;
-        let userModel = state['param'].user;
-        // take user avatar if exists
-        if(userModel?.avatar){
-          this.selectedAvatar = userModel?.avatar
-        }else{
-          this.selectedAvatar = this.animalService.next();
-        }
-        // take username if exists
-        this.username = userModel?.username;
+    private toastr: ToastrService, private router: Router, private route: ActivatedRoute) {
+    // get params from route
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (!!state) {
+      this.action = state['param'].action;
+      let userModel = state['param'].user;
+      // take user avatar if exists
+      if (userModel?.avatar) {
+        this.selectedAvatar = userModel?.avatar
+      } else {
+        this.selectedAvatar = this.animalService.next();
       }
+      // take username if exists
+      this.username = userModel?.username;
     }
+  }
 
   ngOnInit(): void {
     // change to layout depending on action found in state
@@ -100,8 +100,8 @@ export class UserFormComponent implements OnInit {
     this.passwordVisible = false;
   }
 
-  changeLayout(layout: FormLayout, changeAvatar:boolean=true) {
-    if(changeAvatar){
+  changeLayout(layout: FormLayout, changeAvatar: boolean = true) {
+    if (changeAvatar) {
       this.selectedAvatar = this.animalService.next();
     }
     this.layout = layout;
@@ -109,12 +109,12 @@ export class UserFormComponent implements OnInit {
     this.onFocusOutHandler();
   }
 
-  private changeLayoutFromAction(action?:UserAction){
-    switch (action){
-      case UserAction.CHANGE_OWN_PASS: this.changeLayout(FormLayout.EDIT_SELF,false);break;
-      case UserAction.CHANGE_USER_PASS: this.changeLayout(FormLayout.EDIT,false);break;
-      case UserAction.CREATE_USER: this.changeLayout(FormLayout.CREATE,true);break;
-      default: this.changeLayout(this.layout,true);break;
+  private changeLayoutFromAction(action?: UserAction) {
+    switch (action) {
+      case UserAction.CHANGE_OWN_PASS: this.changeLayout(FormLayout.EDIT_SELF, false); break;
+      case UserAction.CHANGE_USER_PASS: this.changeLayout(FormLayout.EDIT, false); break;
+      case UserAction.CREATE_USER: this.changeLayout(FormLayout.CREATE, true); break;
+      default: this.changeLayout(this.layout, true); break;
     }
   }
 
@@ -134,8 +134,21 @@ export class UserFormComponent implements OnInit {
       loginResponse.username = userToLogin.username;
       // call localStorageService to save session details
       this.localStorageService.saveLoginDetails(loginResponse, sessionID);
-      // redirect to /list
-      this.router.navigate(['/list'])
+      // redirect to next page
+      if (loginResponse.passwordShouldBeChanged) {
+        // display message info
+        this.toastr.info("It has been recommended to change your password. Not mandatory","",{timeOut: 2500});
+        // redirect to change password page
+        const param = {
+          action: UserAction.CHANGE_OWN_PASS,
+          user: loginResponse,
+        }
+        this.router.navigate(['/manage'], { state: { param } })
+      } else {
+        // redirect to /list
+        this.router.navigate(['/list'])
+      }
+
     });
   }
 

@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { QuotePosition } from 'src/app/model/quote-position-enum';
-import { UserAction } from 'src/app/model/user-action-enum';
 import { AnimalService } from 'src/app/services/animal.service';
 import { concat, concatMap, delay, from, Observable, of, timer } from 'rxjs';
 import { Unsubscriber } from 'src/app/utils/unsubscriber';
@@ -12,7 +11,7 @@ import { IQuote, STOP } from 'src/app/utils/interactions';
 import { InteractEvent } from 'src/app/model/interact-event-enum';
 
 const MAX_FIRST_DELAY = 1000;
-const MAX_DELAY = 4500;
+const MAX_DELAY = 6000;
 const MIN_DELAY = 1000;
 const IDLE_DELAY = 5000;
 const STOP_UNIT_DELAY = 300;
@@ -35,13 +34,15 @@ export class TalkingAvatarComponent implements OnInit {
     this._animal = value;
     this.setAnimalImageSrc();
   }
+
   private idleTimer: Observable<number> = timer(IDLE_DELAY, IDLE_DELAY);
   private character: AvatarCharacter;
   private behavior: AvatarBehavior;
   private category: string;
-  private lastCategory?: string;
-  private lastQuoteSelect?: number
+  private quote?: IQuote;
+  private event?: InteractEvent;
   private state: AvatarState = AvatarState.READY_TO_REACT;
+  private keepGoing: boolean = false;
 
   animalImageSrc!: String;
   private _text?: string;
@@ -50,7 +51,7 @@ export class TalkingAvatarComponent implements OnInit {
 
   constructor(private animalService: AnimalService, private interactService: InteractService, private readonly unsubscriber: Unsubscriber) {
     this.character = AvatarCharacter.MORE_REACTIVE;
-    this.behavior = AvatarBehavior.SOCIALLY_POOR;
+    this.behavior = AvatarBehavior.NORMAL;
     this.category = AvatarBehavior[this.behavior];
   }
 
@@ -82,68 +83,84 @@ export class TalkingAvatarComponent implements OnInit {
    */
 
   notify(event: InteractEvent) {
+    // keep the event for later use
+    this.event = event;
+    // stop interactions from keep going
+    this.keepGoing = false;
+    // react
     if (this.decidesToReact()) {
+      // stop current interactions
       this.unsubscriber.unsubscribe();
+      // create new one
       this.reactTo(event);
     }
   }
 
   private reactTo(event: InteractEvent) {
-    // react to the event
-    this.state = AvatarState.REACTING;
-    // choose quote from interact service
-    let quote;
-    [quote, this.lastQuoteSelect] = this.interactService.pickQuote(event, this.category, this.lastCategory, this.lastQuoteSelect);
-    // say it
-    this.say(quote, this.firstDelay());
+    if (event === InteractEvent.CONFIRM_DISABLE) {
+      // do nothing, the avatar was disabled
+    } else {
+      // react to the event
+      this.state = AvatarState.REACTING;
+      // choose quote from interact service
+      this.quote = this.interactService.pickQuote(event, this.category, this.quote);
+      // say it
+      this.say(this.firstDelay(), this.quote);
+      // keep going after that
+      this.keepGoing = true;
+    }
   }
 
   private firstDelay() {
-    // the delay before the avatar starts talking, +500 to have a minimum delay
+    // the delay before the avatar starts talking, a minimum delay
     return Math.floor(Math.random() * (MAX_FIRST_DELAY)) + 300;
   }
 
-  private Delay() {
+  private inBetweenDelay() {
     // the normal delay between main quotes
     return Math.floor(Math.random() * (MAX_DELAY)) + MIN_DELAY;
   }
 
   private decidesToReact() {
     // probability to react to the event depending on the character
-    /*let randomPick = Math.random() * (this.character);
-    return 0 < randomPick && randomPick <= 1;*/
-    return true; //always react
+    let randomPick = Math.random() * (this.character);
+    return 0 < randomPick && randomPick <= 1;
+    //return true; //always react
   }
 
-  private say(quote: IQuote, predelay: number) {
+  private say(predelay: number, quote?: IQuote,) {
     if (quote && !this.disabled) {
-      this.lastCategory = this.category;
       // process the parts to make the flow
       let flow = from(quote.parts).pipe(
         delay(predelay),
         concatMap(parts => this.processPart(parts)))
         .pipe(this.unsubscriber.takeUntilManualStop);
       // subscribe to the flow
-      flow.subscribe(
-        {
-          next: text => {
-            this._text = text
-            console.log("said : " + text);
-            if (this._text) {
-              this.animateQuote();
-            }
-          },
-          complete:() => {
-            this._text = '';
-            this.state=AvatarState.READY_TO_REACT
-          },
-          error:(err) => {
-            this._text = '';
-            this.state=AvatarState.READY_TO_REACT
-          }
-        }
+      flow.subscribe(this.flowSubscriber(quote));
+    }
+  }
 
-      );
+  private flowSubscriber(quote: IQuote) {
+    return {
+      next: (text: string) => {
+        this._text = text
+        if (this._text) {
+          this.animateQuote();
+        }
+      },
+      complete: () => {
+        this._text = '';
+        this.state = AvatarState.READY_TO_REACT
+        // prepare the next interaction or halt
+        if (!quote.end && this.keepGoing) {
+          timer(this.inBetweenDelay()).pipe(this.unsubscriber.takeUntilManualStop)
+            .subscribe(() => this.reactTo(this.event!))
+        }
+      },
+      error: (err: any) => {
+        this._text = '';
+        this.state = AvatarState.READY_TO_REACT
+      }
     }
   }
 
