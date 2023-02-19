@@ -17,7 +17,7 @@ export class AnimalService {
     if (this.remainingAnimals.length === 0) {
       this.initAnimals();
     }
-    let randomSelect = Math.floor(Math.random() * (this.remainingAnimals.length-1));
+    let randomSelect = Math.floor(Math.random() * (this.remainingAnimals.length));
     let selectedAnimal = this.remainingAnimals[randomSelect];
     this.remainingAnimals.splice(randomSelect, 1);
 

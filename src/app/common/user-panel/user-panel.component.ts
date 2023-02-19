@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { IModel } from 'src/app/model/i-model';
-import { QuotePosition as QuoteEnum } from '../../model/quote-position';
-import { UserAction as UserEnum } from '../../model/user-action';
+import { QuotePosition as QuoteEnum } from '../../model/quote-position-enum';
+import { UserAction as UserEnum } from '../../model/user-action-enum';
 import { faTrashAlt, faPenToSquare, faRectangleXmark, faCheckSquare } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { TalkingAvatarComponent } from '../talking-avatar/talking-avatar.component';
+import { InteractEvent } from 'src/app/model/interact-event-enum';
 
 @Component({
   selector: 'app-user-panel',
@@ -23,6 +25,8 @@ export class UserPanelComponent {
   @Input() user!:IModel;
   @Output() deleteMeEvent = new EventEmitter<IModel>();
 
+  @ViewChild('talker') avatar!:TalkingAvatarComponent;
+
   constructor(private apiService:ApiService, private router: Router, private toastr:ToastrService){}
 
   
@@ -37,11 +41,16 @@ export class UserPanelComponent {
   disableHandler(){
     this.action = UserEnum.DISABLE_USER;
     this.showConfirm=true;
+    // poke the avatar
+    this.avatar.notify(InteractEvent.DISABLE);
   }
 
   deleteHandler(){
     this.action = UserEnum.DELETE_USER;
     this.showConfirm=true;
+    
+    // poke the avatar
+    this.avatar.notify(InteractEvent.DELETE);
   }
 
   editHandler(){
@@ -75,7 +84,11 @@ export class UserPanelComponent {
     //clear
     this.action = UserEnum.INITIAL;
     this.showConfirm=false;
+    // poke the avatar
+    this.avatar.notify(InteractEvent.CANCEL);
   }
+
+
 
 
 

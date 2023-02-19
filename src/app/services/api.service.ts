@@ -5,7 +5,7 @@ import { catchError, timeout } from 'rxjs/operators';
 import { IModel } from '../model/i-model';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from './local-storage.service';
-import { UserAction } from '../model/user-action';
+import { UserAction } from '../model/user-action-enum';
 
 @Injectable({
   providedIn: 'root'

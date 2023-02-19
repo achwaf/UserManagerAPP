@@ -8,8 +8,8 @@
         <div class="mx-auto p-3 w-100 h-100 align-self-center d-flex flex-column align-items-stretch flex-wrap-reverse">
             <div class="card h-100 list-user-container">
                 <div class="card-body overflow-auto">
-                    <ul class="list-group list-group-light">
-                        <li *ngFor="let user of userList; let i = index" class="list-group-item">
+                    <ul #listusers class="list-group list-group-light">
+                        <li *ngFor="let user of userList; let i = index" class="list-group-item" [attr.username]="user.username">
                             <app-user-panel [user]="user" (deleteMeEvent)="deleteUserHandler(user)"></app-user-panel>
                         </li>
                     </ul>
@@ -19,6 +19,8 @@
                         <span #refreshbutton><fa-icon class="fs-5" [icon]="refresh"></fa-icon></span>
                         <span class="refresh-label ms-1">Refresh</span>
                     </button>
+                    <div class="d-flex justify-content-end flex-grow-1"><a class="btn btn-info"
+                        (click)="test()">Test</a></div>
                     <div class="d-flex justify-content-end flex-grow-1"><a class="btn btn-info"
                             (click)="createHandler()">Add a new user</a></div>
                 </div>

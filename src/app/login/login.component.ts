@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormLayout } from '../model/form-layout';
+import { FormLayout } from '../model/form-layout-enum';
 
 @Component({
   selector: 'app-login',

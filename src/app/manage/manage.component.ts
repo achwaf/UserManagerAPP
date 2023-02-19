@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormLayout, FormLayout as UserFormLayout } from '../model/form-layout';
+import { FormLayout, FormLayout as UserFormLayout } from '../model/form-layout-enum';
 
 @Component({
   selector: 'app-manage',

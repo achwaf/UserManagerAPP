@@ -1,5 +1,5 @@
 <div class="d-flex">
-    <app-talking-avatar [position]="QuotePosition.ABOVE" [animal]="user.avatar" [disabled]="!!user.disabled"></app-talking-avatar>
+    <app-talking-avatar #talker [position]="QuotePosition.ABOVE" [animal]="user.avatar" [disabled]="!!user.disabled"></app-talking-avatar>
     <div class="ms-2 p-2 fw-bolder color-main" [ngClass]="{'shortened' : showConfirm, 'disabled': user.disabled}">{{user.username}}</div>
     <ng-container [ngSwitch]="showConfirm">
         <div *ngSwitchCase="false" class="d-flex justify-content-end flex-grow-1 user-actions">

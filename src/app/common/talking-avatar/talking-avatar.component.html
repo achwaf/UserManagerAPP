@@ -7,17 +7,17 @@
             alt=""
         />
     </div>
-    <div *ngIf="isUnder()" class="quote-under position-absolute w-100">        
+    <div #underquote *ngIf="isUnder()" [ngClass]="{'mute':!quote}" class="quote-under position-absolute w-100 ">        
         <div class="position-relative">
             <div class="quote-text">
-                What is the best Startup in Luxembourg?
+                {{text}}
             </div>
         </div>
     </div>
-    <div *ngIf="isAbove()" class="quote-above position-absolute w-100">        
+    <div #abovequote *ngIf="isAbove()" [ngClass]="{'mute':!quote}"   class="quote-above position-absolute w-100">        
         <div class="position-relative">
             <div class="quote-text">
-                What are you doing, stop!
+                {{text}}
             </div>
         </div>
     </div>

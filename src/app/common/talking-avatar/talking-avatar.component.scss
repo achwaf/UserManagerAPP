@@ -34,16 +34,18 @@ $frame-size:45px;
     border-style: solid;
 }
 
-$box-shadow-line:1px;
+.mute{
+    visibility:hidden;
+}
+
 .quote-under{
-    display: none;
-    z-index: 50;
+    z-index: 10;
     top: 0px;
     left: 0px;
     .quote-text{
         font-size: 0.8rem;
         top: $frame-size+10;
-        right:$frame-size+10;
+        right:$frame-size+16;
         color : $orange-400;
         font-weight: bold;
         background: white;
@@ -51,16 +53,12 @@ $box-shadow-line:1px;
         padding: 5px 10px;
         border: 3px solid;
         position: absolute;
-        box-shadow: $box-shadow-line (-$box-shadow-line) white, 
-                    -$box-shadow-line (-$box-shadow-line) white, 
-                    -$box-shadow-line $box-shadow-line white, 
-                    $box-shadow-line $box-shadow-line white;
+        box-shadow: 2px 2px antiquewhite;
     }
 }
 
 .quote-above{
-    display: none;
-    z-index: 50;
+    z-index: 10;
     top: 0px;
     left: 0px;
     .quote-text{
@@ -75,9 +73,6 @@ $box-shadow-line:1px;
         padding: 5px 10px;
         border: 3px solid;
         position: relative;
-        box-shadow: $box-shadow-line (-$box-shadow-line) white, 
-                    -$box-shadow-line (-$box-shadow-line) white, 
-                    -$box-shadow-line $box-shadow-line white, 
-                    $box-shadow-line $box-shadow-line white;
+        box-shadow: 2px 2px antiquewhite;
     }
 }

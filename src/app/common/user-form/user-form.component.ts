@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FormLayout } from 'src/app/model/form-layout';
+import { FormLayout } from 'src/app/model/form-layout-enum';
 import { AnimalService } from 'src/app/services/animal.service';
 import { EMAIL_REGEX, PASSWORD_MAX, USERNAME_MAX } from 'src/app/utils/constants';
-import { UsernameState as UsernameEnum } from 'src/app/model/username-state';
+import { UsernameState as UsernameEnum } from 'src/app/model/username-state-enum';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { IModel } from 'src/app/model/i-model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ActivatedRoute, Router } from "@angular/router"
 import { map, Observable } from 'rxjs';
-import { UserAction } from 'src/app/model/user-action';
+import { UserAction } from 'src/app/model/user-action-enum';
 
 @Component({
   selector: 'app-user-form',
