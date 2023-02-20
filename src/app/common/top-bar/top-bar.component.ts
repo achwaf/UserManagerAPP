@@ -25,13 +25,13 @@ export class TopBarComponent implements OnInit {
   logout = faArrowRightFromBracket;
 
   showMenu: boolean = false;
-  showInteractions:boolean = true;
+  showInteractions: boolean = true;
 
-  @ViewChild('avatar') avatar!:INotifiable;
+  @ViewChild('avatar') avatar!: INotifiable;
 
   user?: UserModel;
 
-  constructor(private apiService: ApiService, private router: Router, private localStorageService: LocalStorageService, private interactService:InteractService) {
+  constructor(private apiService: ApiService, private router: Router, private localStorageService: LocalStorageService, private interactService: InteractService) {
     this.localStorageService.loggedInEvent.subscribe(
       loggedInUser => {
         this.user = loggedInUser;
@@ -40,16 +40,16 @@ export class TopBarComponent implements OnInit {
       loggedInUser => {
         this.user = undefined;
       });
-      router.events.subscribe((event: Event) => {
-        if (event instanceof NavigationEnd) {
-          // show the interactions menu only on the dashboard '/list'
-          if('/manage' == event.url){
-            this.showInteractions = false;
-          }else{
-            this.showInteractions = true;
-          }
+    router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        // show the interactions menu only on the dashboard '/list'
+        if ('/manage' == event.url) {
+          this.showInteractions = false;
+        } else {
+          this.showInteractions = true;
         }
-      });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -82,14 +82,14 @@ export class TopBarComponent implements OnInit {
     this.closeMenu();
 
     // call service for interaction
-    this.interactService.guideInteraction(this.avatar,InteractionName.STARTUP);
+    this.interactService.guideInteraction(this.avatar, InteractionName.STARTUP);
 
   }
   voteHandler() {
     this.closeMenu();
-    
+
     // call service for interaction
-    this.interactService.guideInteraction(this.avatar,InteractionName.VOTE);
+    this.interactService.guideInteraction(this.avatar, InteractionName.VOTE);
   }
   controlHandler() {
     this.closeMenu();

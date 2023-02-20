@@ -113,16 +113,19 @@ export class InteractService {
       this.playInteraction(animator, interaction, ['The best you said?', '..', 'It\'s Cascade of course!', '.', 'keep up the work']);
     } else if (interaction === InteractionName.VOTE) {
       const yes = this.playInteraction(animator, interaction, ['yo', 'let\'s do a vote', 'ah', '..', 'there is no one!']);
-      const no=this.avatars.size - yes;
-      const hanger='                                             ' // this is to hold count in display longer
+      const no = this.avatars.size - yes;
+      const hanger = '                                             ' // this is to hold count in display longer
       // anounce final count of vote
-      timer(13000).pipe(this.unsubscriber.takeUntilManualStop).subscribe(() =>
-        animator.pushToSay([
-          'ok',
-          'the result of the vote is',
-          '...',
-          `YES(${yes}) and NO(${no})${hanger}`,
-          'thanks everyone']));
+      if (this.avatars.size) {
+        timer(13000).pipe(this.unsubscriber.takeUntilManualStop).subscribe(() =>
+          animator.pushToSay([
+            'ok',
+            'the result of the vote is',
+            '...',
+            `YES(${yes}) and NO(${no})${hanger}`,
+            'thanks everyone']));
+      }
+
     }
   }
 

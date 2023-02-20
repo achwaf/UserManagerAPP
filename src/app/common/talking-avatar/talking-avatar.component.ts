@@ -22,7 +22,7 @@ const STOP_UNIT_DELAY = 300;
   styleUrls: ['./talking-avatar.component.scss'],
   providers: [Unsubscriber]
 })
-export class TalkingAvatarComponent implements OnInit, INotifiable {
+export class TalkingAvatarComponent implements OnInit, OnDestroy, INotifiable {
 
   @Input() position: QuotePosition = QuotePosition.NONE;
   @Input() disabled: boolean = false;
@@ -58,6 +58,9 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
 
   constructor(private animalService: AnimalService, private interactService: InteractService, private readonly unsubscriber: Unsubscriber) {
 
+  }
+  ngOnDestroy(): void {
+    this.interactService.unregister(this);
   }
 
   getUsername() {
