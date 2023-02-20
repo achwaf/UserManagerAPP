@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
       entries.forEach((entry) => {
         let elem = entry.target;
         if (entry.isIntersecting) {
-
+          // test getting visible users in the list
           console.log(elem.getAttribute('username'));
         }
         // we only wanted the first observation
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     }, options);
   }
 
-  test(){
+  identifyVisibleUsers(){
     // stop gossiping on children
     this.observer.disconnect();
     // just to do it agaiiiiin 

@@ -19,7 +19,7 @@ export interface IQuotes {
     [key: string]: IQuote[];
 }
 
-const NORMAL: IQuote[] = [
+const COMMON: IQuote[] = [
     // DELETE | DISABLE
     { event: [DELETE, DISABLE], parts: ['hey', 'hey hey', 'hey', 'what are you doing?'], goto: '', onlystart: true, end: false },
     { event: [DELETE, DISABLE], parts: ['hey', 'hey', 'HEY!', 'what are you doing?'], goto: '', onlystart: true, end: false },
@@ -104,11 +104,12 @@ const NORMAL: IQuote[] = [
     { event: [CANCEL], parts: ['ok', '..', 'many thanks'], goto: '', onlystart: false, end: true },
 ];
 
-const STORY_TELLER: IQuote[] = [...NORMAL,
-
-// DISABLE, DELETE
-{ event: [], parts: ['hey', '..', 'are you crazy'], goto: '', onlystart: false, end: false },
-{ event: [], parts: ['come', '.', 'on                    '], goto: '', onlystart: false, end: false },
+const STORY_TELLER: IQuote[] = [
+    // include COMMON
+    ...COMMON,
+    // DISABLE, DELETE
+    { event: [], parts: ['hey', '..', 'are you crazy'], goto: '', onlystart: false, end: false },
+    { event: [], parts: ['come', '.', 'on'], goto: '', onlystart: false, end: false },
 
     // DELETE
 
@@ -117,7 +118,7 @@ const STORY_TELLER: IQuote[] = [...NORMAL,
     // CANCEL
 ]
 
-export const QUOTES: IQuotes = { NORMAL, STORY_TELLER };
+export const QUOTES: IQuotes = { COMMON, STORY_TELLER };
 
 
 
@@ -125,15 +126,17 @@ export const QUOTES: IQuotes = { NORMAL, STORY_TELLER };
  * Interaction with logged in avatar
  */
 
+export interface IScriptQuote {
+    quote: string[],
+    repeatable: boolean,
+    value?: number
+}
+
 export interface IScript {
     animator: string[],
     public: {
         howmany: InteractParticipant,
-        replies: {
-            quote: string[],
-            repeatable: boolean,
-            value?: any
-        }[]
+        replies: IScriptQuote[]
     }
 };
 
@@ -142,22 +145,25 @@ export interface IGuidedInteraction {
 };
 
 export const GUIDED_INTERACTIONS: IGuidedInteraction = {
-    BEST_STARTUP: {
+    STARTUP: {
         animator: ['hey', '.', 'all of you', '..', 'what is the best startup in Luxembourg?'],
         public: {
             howmany: InteractParticipant.ALL,
             replies: [
                 { quote: ['Cascade'], repeatable: true },
                 { quote: ['it\'s Cascade'], repeatable: true },
+                { quote: ['CASCADE'], repeatable: true },
+                { quote: ['Cascade'], repeatable: true },
                 { quote: ['heh', '.', 'it\'s Cascade'], repeatable: false },
-                { quote: ['Cascade', '..', 'everyone knows it'], repeatable: false },
+                { quote: ['Cascade', '..', 'yeah'], repeatable: false },
                 { quote: ['Cascade for sure'], repeatable: false },
+                { quote: ['Casdacede','Cascade'], repeatable: false },
             ]
         }
     }
     ,
     VOTE: {
-        animator: ['let\'s do a vote everyone', '..', 'please', 'just vote YES/NO    ', 'the subject doesn\'t matter'],
+        animator: ['let\'s do a vote everyone', '..', 'please vote YES/NO ', 'the subject doesn\'t matter'],
         public: {
             howmany: InteractParticipant.ALL,
             replies: [
@@ -167,9 +173,9 @@ export const GUIDED_INTERACTIONS: IGuidedInteraction = {
                 { quote: ['No'], repeatable: true, value: 0 },
                 { quote: ['yes'], repeatable: true, value: 1 },
                 { quote: ['no'], repeatable: true, value: 0 },
-                { quote: ['Yes', '...', 'no wait', 'I vote No'], repeatable: false, value: 0 },
+                { quote: ['Yes', '..', 'no wait', 'I vote No'], repeatable: false, value: 0 },
                 { quote: ['No', '.', 'yes', '.', 'yes is my final'], repeatable: false, value: 1 },
-                { quote: ['I don\'t know', '.', 'hmmm', '...', 'I pick YES'], repeatable: false, value: 1 },
+                { quote: ['I don\'t know', '.', 'hmmm', '.', 'I pick YES'], repeatable: false, value: 1 },
                 { quote: ['wait', '.', 'hmmm', '...', 'I choose NO'], repeatable: false, value: 0 },
                 { quote: ['hmmm', '.', 'NO'], repeatable: false, value: 0 },
                 { quote: ['hmmm', '.', 'YES'], repeatable: false, value: 1 },

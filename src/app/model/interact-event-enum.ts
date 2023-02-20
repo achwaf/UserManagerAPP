@@ -5,7 +5,7 @@ export enum InteractEvent
     CANCEL,
     CONFIRM_ENABLE,
     CONFIRM_DISABLE,
-
+    INTERACT_CALL,
 }
 
 export enum InteractParticipant
@@ -13,4 +13,10 @@ export enum InteractParticipant
    SOMEONE,
    ALL,
    FEW,
+}
+
+export enum InteractionName
+{
+   STARTUP,
+   VOTE,
 }

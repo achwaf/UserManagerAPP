@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppRouteReuseStrategy } from './utils/app-route-reuse-strategy';
+import { Unsubscriber } from './utils/unsubscriber';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { AppRouteReuseStrategy } from './utils/app-route-reuse-strategy';
     }),
   ],
   providers: [
-    {provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy}],
+    {provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy},
+    Unsubscriber  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -36,15 +36,15 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     this.setAnimalImageSrc();
   }
 
-  private _username?:string;
+  private _username?: string;
   @Input()
   set username(value: string) {
     this._username = value;
   }
 
   private idleTimer: Observable<number> = timer(IDLE_DELAY, IDLE_DELAY);
-  private character: AvatarCharacter=AvatarCharacter.NOT_REACTIVE;
-  private behavior: AvatarBehavior=AvatarBehavior.NORMAL;
+  private character: AvatarCharacter = AvatarCharacter.NOT_REACTIVE;
+  private behavior: AvatarBehavior = AvatarBehavior.COMMON;
   private category?: string;
   private quote?: IQuote;
   private event?: InteractEvent;
@@ -57,7 +57,7 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
 
 
   constructor(private animalService: AnimalService, private interactService: InteractService, private readonly unsubscriber: Unsubscriber) {
-    
+
   }
 
   getUsername() {
@@ -69,7 +69,7 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     // tick avery second
     this.idleTimer.pipe(this.unsubscriber.takeUntilDestroy).subscribe(/*(x) => console.log(x)*/);
     // register for interaction
-    [this.character,this.behavior] = this.interactService.register(this);
+    [this.character, this.behavior] = this.interactService.register(this);
     this.category = AvatarBehavior[this.behavior];
   }
 
@@ -94,7 +94,20 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
    * interaction logic
    */
 
-  notify(event: InteractEvent):void {
+  pushToSay(parts: string[],shortDelay:boolean=true) {
+    // stop interactions from keep going
+    this.keepGoing = false;
+    // stop current interactions
+    this.unsubscriber.unsubscribe();
+    // update state
+    this.state = AvatarState.REACTING;
+    // wrap the parts in a quote and say the quote 
+    let delay = shortDelay?this.firstDelay():this.inBetweenDelay(4000);
+    this.say(delay, {parts,end:true,event:[],goto:'',onlystart:false});
+
+  }
+
+  notify(event: InteractEvent): void {
     // keep the event for later use
     this.event = event;
     // stop interactions from keep going
@@ -128,9 +141,10 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     return Math.floor(Math.random() * (MAX_FIRST_DELAY)) + 300;
   }
 
-  private inBetweenDelay() {
+  private inBetweenDelay(maxDelay?:number) {
     // the normal delay between main quotes
-    return Math.floor(Math.random() * (MAX_DELAY)) + MIN_DELAY;
+    let max = maxDelay || MAX_DELAY;
+    return Math.floor(Math.random() * (max)) + MIN_DELAY;
   }
 
   private decidesToReact() {

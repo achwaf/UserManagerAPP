@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TalkingAvatarComponent } from '../common/talking-avatar/talking-avatar.component';
+import { timer } from 'rxjs';
 import { AvatarBehavior } from '../model/avatar-behavior-enum';
 import { AvatarCharacter } from '../model/avatar-character-enum';
 import { INotifiable } from '../model/i-notifiable';
-import { InteractEvent } from '../model/interact-event-enum';
-import { IQuote, QUOTES } from '../utils/interactions';
+import { InteractionName, InteractEvent } from '../model/interact-event-enum';
+import { GUIDED_INTERACTIONS, IQuote, IScriptQuote, QUOTES } from '../utils/interactions';
+import { Unsubscriber } from '../utils/unsubscriber';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,16 @@ export class InteractService {
     behavior: AvatarBehavior
   }> = new Map();
 
-  private avatarLoggedIn?:INotifiable;
+  private avatarLoggedIn?: INotifiable;
 
-  constructor() { }
+  constructor(private unsubscriber: Unsubscriber) { }
 
   /**
    * pick a quote different from the last one
    */
   pickQuote(event: InteractEvent, category?: string, lastQuote?: IQuote): IQuote | undefined {
     // input check
-    if(!category){
+    if (!category) {
       return;
     }
     // filter on event and category
@@ -66,11 +67,11 @@ export class InteractService {
         return [character, behavior];
       }
     } else {
-      return [AvatarCharacter.NOT_REACTIVE,AvatarBehavior.NORMAL];
+      return [AvatarCharacter.NOT_REACTIVE, AvatarBehavior.COMMON];
     }
   }
 
-  unregister(avatar:INotifiable){
+  unregister(avatar: INotifiable) {
     this.avatars.delete(avatar.getUsername()!);
   }
 
@@ -102,9 +103,68 @@ export class InteractService {
     } else {
       return AvatarBehavior.HACKER  // 1.5% chance
     }*/
-    return AvatarBehavior.NORMAL;
+    // lack of time to implement all
+    return AvatarBehavior.COMMON;
   }
 
+  guideInteraction(animator: INotifiable, interaction: InteractionName) {
+    this.unsubscriber.unsubscribe();
+    if (interaction === InteractionName.STARTUP) {
+      this.playInteraction(animator, interaction, ['The best you said?', '..', 'It\'s Cascade of course!', '.', 'keep up the work']);
+    } else if (interaction === InteractionName.VOTE) {
+      const yes = this.playInteraction(animator, interaction, ['yo', 'let\'s do a vote', 'ah', '..', 'there is no one!']);
+      const no=this.avatars.size - yes;
+      const hanger='                                             ' // this is to hold count in display longer
+      // anounce final count of vote
+      timer(13000).pipe(this.unsubscriber.takeUntilManualStop).subscribe(() =>
+        animator.pushToSay([
+          'ok',
+          'the result of the vote is',
+          '...',
+          `YES(${yes}) and NO(${no})${hanger}`,
+          'thanks everyone']));
+    }
+  }
+
+  // a very poor implementation because of lack of time
+  private playInteraction(animator: INotifiable, interaction: InteractionName, animatorOnlyQuote: string[]): number {
+    const entry = InteractionName[interaction];
+    const guidedInteraction = GUIDED_INTERACTIONS[entry];
+    // animator quote
+    if (this.avatars.size) {
+      animator.pushToSay(guidedInteraction.animator);
+    } else {
+      animator.pushToSay(animatorOnlyQuote);
+    }
+    // public quotes
+    let repeatableReplies = guidedInteraction.public.replies.filter(r => r.repeatable);
+    let nonRepeatableReplies = guidedInteraction.public.replies.filter(r => !r.repeatable);
+    let sumValues = 0;
+    this.avatars.forEach(avatarProfile => {
+      let scriptQuote = this.pickQuoteFromScript(repeatableReplies, nonRepeatableReplies);
+      sumValues += scriptQuote?.value || 0;
+      // if a quote is picked from the nonRepeatable array
+      // it should get removed so the next call wont pick it
+      const index = nonRepeatableReplies.indexOf(scriptQuote!);
+      if (index > -1) {
+        nonRepeatableReplies.splice(index, 1);
+      }
+      // say the quote after delay
+      timer(5500).pipe(this.unsubscriber.takeUntilManualStop)
+        .subscribe(() => avatarProfile.avatar.pushToSay(scriptQuote?.quote, false));
+      ;
+    });
+    return sumValues;
+  }
+
+  private pickQuoteFromScript(repeatableReplies: IScriptQuote[], nonRepeatableReplies: IScriptQuote[]) {
+    // merge the 2 arrays and pick a quote
+    const mergedReplies = repeatableReplies.concat(nonRepeatableReplies);
+    const randomSelect = Math.floor(Math.random() * (mergedReplies.length));
+    const scriptQuote = mergedReplies.at(randomSelect);
+
+    return scriptQuote;
+  }
 
 
 

@@ -5,7 +5,8 @@
     <div class="d-flex flex-fill justify-content-end pe-2 align-items-center">
         <div class="user-profile d-flex align-items-center p-2 btn btn-rounded" (click)="profileHandler()">
             <div class="p-2 fw-bolder user-name color-main">{{user.getName()}}</div>
-            <app-talking-avatar [position]="QuotePosition.UNDER" [animal]="user.avatar" loggedin></app-talking-avatar>
+            <app-talking-avatar #avatar [position]="QuotePosition.UNDER" [animal]="user.avatar"
+                loggedin></app-talking-avatar>
         </div>
     </div>
     <ul *ngIf="showMenu" class="dropdown-menu position-absolute me-2" (mouseleave)="closeMenu()">
@@ -16,7 +17,7 @@
         </li>
         <ng-container *ngIf="showInteractions">
             <li><a class="dropdown-item" (click)="interactHandler()"><fa-icon class="me-3"
-                        [icon]="interact"></fa-icon>Interact</a></li>
+                        [icon]="interact"></fa-icon>What is the best Startup?</a></li>
             <li><a class="dropdown-item" (click)="voteHandler()"><fa-icon class="me-3" [icon]="vote"></fa-icon>Do a
                     vote</a></li>
             <li>

@@ -1,6 +1,6 @@
 export enum AvatarBehavior
  {
-    NORMAL,
+    COMMON,
     STORY_TELLER,
     HACKER,
     AI,

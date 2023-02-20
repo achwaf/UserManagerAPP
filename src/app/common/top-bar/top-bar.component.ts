@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { faCircleUser, faComment, faHand, faNoteSticky } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { INotifiable } from 'src/app/model/i-notifiable';
+import { InteractionName } from 'src/app/model/interact-event-enum';
 import { QuotePosition as QuoteEnum } from 'src/app/model/quote-position-enum';
 import { UserAction } from 'src/app/model/user-action-enum';
 import { UserModel } from 'src/app/model/user-model';
@@ -24,6 +26,8 @@ export class TopBarComponent implements OnInit {
 
   showMenu: boolean = false;
   showInteractions:boolean = true;
+
+  @ViewChild('avatar') avatar!:INotifiable;
 
   user?: UserModel;
 
@@ -78,11 +82,14 @@ export class TopBarComponent implements OnInit {
     this.closeMenu();
 
     // call service for interaction
-    
+    this.interactService.guideInteraction(this.avatar,InteractionName.STARTUP);
 
   }
   voteHandler() {
     this.closeMenu();
+    
+    // call service for interaction
+    this.interactService.guideInteraction(this.avatar,InteractionName.VOTE);
   }
   controlHandler() {
     this.closeMenu();
