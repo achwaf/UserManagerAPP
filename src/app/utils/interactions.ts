@@ -67,14 +67,15 @@ const COMMON: IQuote[] = [
     { event: [DELETE, DISABLE], parts: ['you hate me?', '.', 'is that why?'], goto: '', onlystart: false, end: false },
     { event: [DELETE, DISABLE], parts: ['you do not like me?'], goto: '', onlystart: false, end: false },
     { event: [DELETE, DISABLE], parts: ['it\'s sad', 'it\'s sad what you are going to do'], goto: '', onlystart: false, end: false },
-    { event: [DELETE, DISABLE], parts: ['it\'s bad'], goto: '', onlystart: false, end: false },
-    { event: [DELETE, DISABLE], parts: ['it\'s sad', '..', 'and bad'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['no','it\'s bad'], goto: '', onlystart: false, end: false },
+    { event: [DELETE, DISABLE], parts: ['no','stop','that\'s rude', '..', 'and bad'], goto: '', onlystart: false, end: false },
     { event: [DELETE, DISABLE], parts: ['why', '..', 'why?', '...', 'just why?'], goto: '', onlystart: false, end: false },
     { event: [DELETE, DISABLE], parts: ['did I do something?', 'to you, maybe?', 'or', '.', 'to myself?'], goto: '', onlystart: false, end: false },
     { event: [DELETE, DISABLE], parts: ['did I do something wrong?'], goto: '', onlystart: false, end: false },
 
     { event: [DELETE, DISABLE], parts: ['well', '.', 'if you want to do it', 'I can\'t stop you', 'I mean', '..', 'I can do nothing', '.', 'but please don\'t', '...', 'I am not begging anymore'], goto: '', onlystart: false, end: true },
     { event: [DELETE, DISABLE], parts: [''], goto: '', onlystart: false, end: true }, // this is to have a chance to stop eventually
+    { event: [DELETE, DISABLE], parts: [''], goto: '', onlystart: false, end: true }, // this is to have a higher chance to stop eventually
 
     // DELETE
     { event: [DELETE], parts: ['you want to delete me?', '..', 'why'], goto: '', onlystart: true, end: false },
@@ -89,6 +90,16 @@ const COMMON: IQuote[] = [
     { event: [DISABLE], parts: ['disabling is a bad action', 'not as bas as deleting, though', '..', 'but', 'it is\'s still bad'], goto: '', onlystart: false, end: false },
 
     { event: [DISABLE], parts: ['ok', 'ok', '.', 'I get it', '..', 'you want to disable me to shut me up', 'don\'t do it', 'I will not talk anymore'], goto: '', onlystart: true, end: true },
+    
+    // ENABLE
+    { event: [ENABLE], parts: ['oh','hello'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['hello'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['hi'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['yeah','I\'m back'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['how long have I been disabled?'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['haaa'], goto: '', onlystart: false, end: true },
+    { event: [ENABLE], parts: ['thanks'], goto: '', onlystart: false, end: true },
+    
     // CANCEL
     { event: [CANCEL], parts: ['oof', '.', 'thank you'], goto: '', onlystart: false, end: true },
     { event: [CANCEL], parts: ['thank you'], goto: '', onlystart: false, end: true },
@@ -100,7 +111,7 @@ const COMMON: IQuote[] = [
     { event: [CANCEL], parts: ['what a relief!'], goto: '', onlystart: false, end: true },
     { event: [CANCEL], parts: ['you are a good person'], goto: '', onlystart: false, end: true },
     { event: [CANCEL], parts: ['oh     ', 'ok'], goto: '', onlystart: false, end: true },
-    { event: [CANCEL], parts: ['oh     ', 'never mind'], goto: '', onlystart: false, end: true },
+    { event: [CANCEL], parts: ['oh', 'I got lucky','.','this time'], goto: '', onlystart: false, end: true },
     { event: [CANCEL], parts: ['ok', '..', 'many thanks'], goto: '', onlystart: false, end: true },
 ];
 

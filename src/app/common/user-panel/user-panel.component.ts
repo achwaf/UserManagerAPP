@@ -73,7 +73,11 @@ export class UserPanelComponent {
       if (UserEnum.ENABLE_USER === this.action || UserEnum.DISABLE_USER === this.action) {
         this.user.disabled = !this.user.disabled;
         // notify avatar
-        this.avatar.notify(InteractEvent.CONFIRM_DISABLE);
+        if (this.user.disabled) {
+          this.avatar.notify(InteractEvent.CONFIRM_DISABLE);
+        } else {
+          this.avatar.notify(InteractEvent.CONFIRM_ENABLE);
+        }
 
       } else if (UserEnum.DELETE_USER === this.action) {
         //no need to notify the avatar, it will be removed anyway

@@ -94,7 +94,7 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
    * interaction logic
    */
 
-  pushToSay(parts: string[],shortDelay:boolean=true) {
+  pushToSay(parts: string[], shortDelay: boolean = true) {
     // stop interactions from keep going
     this.keepGoing = false;
     // stop current interactions
@@ -102,8 +102,8 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     // update state
     this.state = AvatarState.REACTING;
     // wrap the parts in a quote and say the quote 
-    let delay = shortDelay?this.firstDelay():this.inBetweenDelay(4000);
-    this.say(delay, {parts,end:true,event:[],goto:'',onlystart:false});
+    let delay = shortDelay ? this.firstDelay() : this.inBetweenDelay(4000);
+    this.say(delay, { parts, end: true, event: [], goto: '', onlystart: false });
 
   }
 
@@ -112,10 +112,10 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     this.event = event;
     // stop interactions from keep going
     this.keepGoing = false;
+    // stop current interactions
+    this.unsubscriber.unsubscribe();
     // react
     if (this.decidesToReact()) {
-      // stop current interactions
-      this.unsubscriber.unsubscribe();
       // create new one
       this.reactTo(event);
     }
@@ -141,7 +141,7 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
     return Math.floor(Math.random() * (MAX_FIRST_DELAY)) + 300;
   }
 
-  private inBetweenDelay(maxDelay?:number) {
+  private inBetweenDelay(maxDelay?: number) {
     // the normal delay between main quotes
     let max = maxDelay || MAX_DELAY;
     return Math.floor(Math.random() * (max)) + MIN_DELAY;
@@ -155,7 +155,7 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
   }
 
   private say(predelay: number, quote?: IQuote,) {
-    if (quote && !this.disabled) {
+    if (quote) {
       // process the parts to make the flow
       let flow = from(quote.parts).pipe(
         delay(predelay),
@@ -169,10 +169,13 @@ export class TalkingAvatarComponent implements OnInit, INotifiable {
   private flowSubscriber(quote: IQuote) {
     return {
       next: (text: string) => {
-        this._text = text
-        if (this._text) {
-          this.animateQuote();
+        if (!this.disabled) {
+          this._text = text
+          if (this._text) {
+            this.animateQuote();
+          }
         }
+
       },
       complete: () => {
         this._text = '';
